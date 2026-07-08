@@ -2,7 +2,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { donatedItemsApi } from '../api/donated-items';
 import type { DonatedItem, DonatedItemGroup, DonatedItemsQueryParams } from '../types/donated-item.types';
-import { useToast } from './useToast';
 
 const DEFAULT_PAGINATION = {
   page: 1,

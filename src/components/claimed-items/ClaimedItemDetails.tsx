@@ -8,7 +8,6 @@ import {
   CalendarIcon,
   UserIcon,
   PhoneIcon,
-  ClockIcon,
   ArrowLeftIcon,
   TrashIcon,
   UserCircleIcon,

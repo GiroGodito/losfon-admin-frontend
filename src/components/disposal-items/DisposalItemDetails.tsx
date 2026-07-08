@@ -8,7 +8,6 @@ import {
   CalendarIcon,
   UserIcon,
   PhoneIcon,
-  ClockIcon,
   ArrowLeftIcon,
   TrashIcon,
 } from '@heroicons/react/24/outline';

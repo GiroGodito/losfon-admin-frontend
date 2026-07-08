@@ -2,7 +2,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { activityLogsApi } from '../api/activity-logs';
 import type { ActivityLog, ActivityLogsQueryParams } from '../types/activity-log.types';
-import { useToast } from './useToast';
 
 const DEFAULT_PAGINATION = {
   page: 1,
