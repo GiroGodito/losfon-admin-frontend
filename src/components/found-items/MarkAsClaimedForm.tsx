@@ -7,7 +7,7 @@ import { useToast } from '../../hooks/useToast';
 import { useAuth } from '../../context/AuthContext'; // ✅ ADD THIS
 import { userApi } from '../../api/lost-items';
 import type { UserDropdownDto } from '../../api/lost-items';
-import { CheckCircleIcon, UserIcon, ShieldCheckIcon, PhoneIcon } from '@heroicons/react/24/outline';
+import { UserIcon, ShieldCheckIcon, PhoneIcon } from '@heroicons/react/24/outline';
 
 // ============================================================================
 // HOOKS

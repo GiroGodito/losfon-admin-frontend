@@ -10,7 +10,6 @@ import {
   PhoneIcon,
   ClockIcon,
   ArrowLeftIcon,
-  CheckCircleIcon,
   TrashIcon,
   UserCircleIcon,
 } from '@heroicons/react/24/outline';
@@ -73,41 +72,41 @@ export const ClaimedItemDetails: React.FC<ClaimedItemDetailsProps> = ({
     );
   };
 
-  const renderStatusTimeline = (): React.ReactNode => {
-    const events = [
-      {
-        label: 'Released',
-        value: formatDateWithTime(item.releasedDate),
-        icon: <CalendarIcon className="w-4 h-4" />,
-      },
-      {
-        label: 'Created',
-        value: formatRelativeTime(item.createdAt),
-        icon: <ClockIcon className="w-4 h-4" />,
-      },
-    ];
+  // const renderStatusTimeline = (): React.ReactNode => {
+  //   const events = [
+  //     {
+  //       label: 'Released',
+  //       value: formatDateWithTime(item.releasedDate),
+  //       icon: <CalendarIcon className="w-4 h-4" />,
+  //     },
+  //     {
+  //       label: 'Created',
+  //       value: formatRelativeTime(item.createdAt),
+  //       icon: <ClockIcon className="w-4 h-4" />,
+  //     },
+  //   ];
 
-    return (
-      <div className="bg-gray-800/20 rounded-xl border border-gray-700/50 p-4">
-        <h4 className="text-xs font-medium text-gray-500 uppercase tracking-wider mb-3">
-          Activity Timeline
-        </h4>
-        <div className="space-y-2.5">
-          {events.map((event, index) => (
-            <div key={index} className="flex items-center gap-3">
-              <div className="w-7 h-7 rounded-full bg-gray-800/50 border border-gray-700/50 flex items-center justify-center text-gray-400 flex-shrink-0">
-                {event.icon}
-              </div>
-              <div className="flex-1 flex items-center justify-between">
-                <span className="text-sm text-gray-300">{event.label}</span>
-                <span className="text-sm text-gray-400">{event.value}</span>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    );
-  };
+  //   return (
+  //     <div className="bg-gray-800/20 rounded-xl border border-gray-700/50 p-4">
+  //       <h4 className="text-xs font-medium text-gray-500 uppercase tracking-wider mb-3">
+  //         Activity Timeline
+  //       </h4>
+  //       <div className="space-y-2.5">
+  //         {events.map((event, index) => (
+  //           <div key={index} className="flex items-center gap-3">
+  //             <div className="w-7 h-7 rounded-full bg-gray-800/50 border border-gray-700/50 flex items-center justify-center text-gray-400 flex-shrink-0">
+  //               {event.icon}
+  //             </div>
+  //             <div className="flex-1 flex items-center justify-between">
+  //               <span className="text-sm text-gray-300">{event.label}</span>
+  //               <span className="text-sm text-gray-400">{event.value}</span>
+  //             </div>
+  //           </div>
+  //         ))}
+  //       </div>
+  //     </div>
+  //   );
+  // };
 
   const hasImage = !!item.filePath;
 

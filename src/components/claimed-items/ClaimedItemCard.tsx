@@ -1,7 +1,6 @@
 // src/components/claimed-items/ClaimedItemCard.tsx
 import React from 'react';
 import type { ClaimedItem } from '../../types/claimed-item.types';
-import { Badge } from '../common/Badge';
 import { Button } from '../common/Button';
 import { useNavigate } from 'react-router-dom';
 import { formatDate } from '../../lib/date';

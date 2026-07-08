@@ -79,16 +79,25 @@ export const usePrintSettings = () => {
   }, []);
 
   // ==============================================
-  // LOAD PRINT LOGS
+  // LOAD PRINT LOGS - ✅ FIXED
   // ==============================================
   const loadPrintLogs = useCallback(async (params: PrintLogsQueryParams = {}) => {
     setIsLoading(true);
     setError(null);
     try {
       const response = await printSettingsApi.getPrintLogs(params);
+      
+      // ✅ Use response.data and response.pagination (not response.items)
       if (response.success) {
-        setPrintLogs(response.data);
-        setLogsPagination(response.pagination);
+        setPrintLogs(response.data || []);
+        setLogsPagination({
+          page: response.pagination?.page || 1,
+          pageSize: response.pagination?.pageSize || 10,
+          totalCount: response.pagination?.totalCount || 0,
+          totalPages: response.pagination?.totalPages || 0,
+          hasPreviousPage: response.pagination?.hasPreviousPage || false,
+          hasNextPage: response.pagination?.hasNextPage || false,
+        });
       } else {
         setError('Failed to load print logs');
       }
@@ -100,7 +109,7 @@ export const usePrintSettings = () => {
   }, []);
 
   // ==============================================
-  // UPDATE SETTING - ✅ FIXED to return Promise<void>
+  // UPDATE SETTING
   // ==============================================
   const updateSetting = useCallback(async (data: UpdatePrintSettingRequest): Promise<void> => {
     try {
@@ -120,7 +129,7 @@ export const usePrintSettings = () => {
   }, [loadSettings, showToast]);
 
   // ==============================================
-  // SET DEFAULT OFFICER - ✅ FIXED to return Promise<void>
+  // SET DEFAULT OFFICER
   // ==============================================
   const setDefaultOfficer = useCallback(async (officerId: number): Promise<void> => {
     try {

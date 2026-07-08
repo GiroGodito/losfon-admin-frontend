@@ -12,7 +12,7 @@ export const validationRules = {
   },
 
   phoneNumber: (value: string): boolean => {
-    const cleaned = value.replace(/[\s\-\(\)]/g, '');
+    const cleaned = value.replace(/[\s\-()]/g, '');
     return cleaned.startsWith('+') 
       ? /^\+\d{7,15}$/.test(cleaned)
       : /^09\d{9}$/.test(cleaned) || /^\d{7,15}$/.test(cleaned);

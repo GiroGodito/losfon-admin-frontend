@@ -1,8 +1,6 @@
 // src/pages/DonatedItemsPage.tsx
-import React from 'react';
 import { useDonatedItems } from '../hooks/useDonatedItems';
 import { DonatedItemList } from '../components/donated-items/DonatedItemList';
-import { HeartIcon } from '@heroicons/react/24/outline';
 
 export const DonatedItemsPage = () => {
   const {

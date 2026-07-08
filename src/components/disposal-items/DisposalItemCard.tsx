@@ -1,7 +1,6 @@
 // src/components/disposal-items/DisposalItemCard.tsx
 import React from 'react';
 import type { DisposalItem } from '../../types/disposal-item.types';
-import { Badge } from '../common/Badge';
 import { Button } from '../common/Button';
 import { useNavigate } from 'react-router-dom';
 import { formatDate } from '../../lib/date';

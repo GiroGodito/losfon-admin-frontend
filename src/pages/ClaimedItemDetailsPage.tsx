@@ -1,5 +1,5 @@
 // src/pages/ClaimedItemDetailsPage.tsx
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { claimedItemsApi } from '../api/claimed-items';
 import type { ClaimedItem } from '../types/claimed-item.types';

@@ -30,7 +30,7 @@ export const useActivityLogs = (initialParams: ActivityLogsQueryParams = {}) => 
     sortBy: 'CreatedAt',
     sortDirection: 'DESC' as 'ASC' | 'DESC',
   });
-  const { showToast } = useToast();
+  // const { showToast } = useToast();
 
   const fetchLogs = useCallback(async () => {
     setIsLoading(true);

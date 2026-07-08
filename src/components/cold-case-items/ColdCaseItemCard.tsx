@@ -1,7 +1,6 @@
 // src/components/cold-case-items/ColdCaseItemCard.tsx
 import React from 'react';
 import type { ColdCaseItem } from '../../types/cold-case-item.types';
-import { Badge } from '../common/Badge';
 import { Button } from '../common/Button';
 import { useNavigate } from 'react-router-dom';
 import { formatDate } from '../../lib/date';

@@ -1,7 +1,6 @@
 // src/components/reports/PrintLogs.tsx
 import React from 'react';
 import type { PrintLog } from '../../types/print-settings.types';
-import { Card } from '../common/Card';
 import { EmptyState } from '../common/EmptyState';
 import { Spinner } from '../common/Spinner';
 import { Pagination } from '../common/Pagination';

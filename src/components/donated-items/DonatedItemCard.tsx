@@ -1,7 +1,6 @@
 // src/components/donated-items/DonatedItemCard.tsx
 import React from 'react';
 import type { DonatedItem } from '../../types/donated-item.types';
-import { Badge } from '../common/Badge';
 import { formatDate } from '../../lib/date';
 import { CalendarIcon, UserIcon, PhoneIcon, HeartIcon } from '@heroicons/react/24/outline';
 

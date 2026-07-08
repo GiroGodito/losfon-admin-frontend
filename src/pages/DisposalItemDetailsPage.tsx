@@ -1,5 +1,5 @@
 // src/pages/DisposalItemDetailsPage.tsx
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { disposalItemsApi } from '../api/disposal-items';
 import type { DisposalItem } from '../types/disposal-item.types';

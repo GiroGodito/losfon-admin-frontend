@@ -24,7 +24,7 @@ export const useDonatedItems = (initialParams: DonatedItemsQueryParams = {}) => 
     pageSize: 10,
     ...initialParams,
   });
-  const { showToast } = useToast();
+  // const { showToast } = useToast();
 
   // ============ FETCH FLAT LIST ============
   const fetchItems = useCallback(async () => {

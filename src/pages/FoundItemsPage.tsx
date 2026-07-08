@@ -1,5 +1,5 @@
 // src/pages/FoundItemsPage.tsx
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useFoundItems } from '../hooks/useFoundItems';
 import { FoundItemList } from '../components/found-items/FoundItemList';
 import { Button } from '../components/common/Button';

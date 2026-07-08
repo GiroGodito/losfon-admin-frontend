@@ -1,10 +1,9 @@
 // src/components/sso-officers/OfficerCard.tsx
 import React from 'react';
 import type { SSOfficer } from '../../types/sso-officer.types';
-import { Badge } from '../common/Badge';
 import { Button } from '../common/Button';
 import { formatDate } from '../../lib/date';
-import { PencilSquareIcon, TrashIcon, PhoneIcon, CalendarIcon, UserIcon } from '@heroicons/react/24/outline';
+import { PencilSquareIcon, TrashIcon, PhoneIcon, CalendarIcon } from '@heroicons/react/24/outline';
 
 interface OfficerCardProps {
   officer: SSOfficer;

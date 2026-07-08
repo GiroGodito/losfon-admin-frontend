@@ -1,5 +1,5 @@
 // src/pages/DisposalItemsPage.tsx
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useDisposalItems } from '../hooks/useDisposalItems';
 import { DisposalItemList } from '../components/disposal-items/DisposalItemList';
 import { ConfirmDialog } from '../components/common/ConfirmDialog';

@@ -1,6 +1,5 @@
 // src/pages/DashboardPage.tsx
-import React, { useEffect } from 'react';
-import { useAuth } from '../context/AuthContext';
+import { useEffect } from 'react';
 import { StatsCard } from '../components/dashboard/StatsCard';
 import { RecentActivity } from '../components/dashboard/RecentActivity';
 import {
@@ -20,8 +19,6 @@ import { useDisposalItems } from '../hooks/useDisposalItems';
 import { useActivityLogs } from '../hooks/useActivityLogs';
 
 export const DashboardPage = () => {
-  const { user } = useAuth();
-  
   // Fetch activity logs for recent activity
   const { logs, isLoading: logsLoading, fetchLogs } = useActivityLogs({ page: 1, pageSize: 5 });
   

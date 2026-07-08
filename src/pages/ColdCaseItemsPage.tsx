@@ -1,5 +1,5 @@
 // src/pages/ColdCaseItemsPage.tsx
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useColdCaseItems } from '../hooks/useColdCaseItems';
 import { ColdCaseItemList } from '../components/cold-case-items/ColdCaseItemList';
 import { Button } from '../components/common/Button';

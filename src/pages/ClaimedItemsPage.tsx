@@ -1,13 +1,11 @@
 // src/pages/ClaimedItemsPage.tsx
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useClaimedItems } from '../hooks/useClaimedItems';
 import { ClaimedItemList } from '../components/claimed-items/ClaimedItemList';
-import { Button } from '../components/common/Button';
 import { Modal } from '../components/common/Modal';
 import { CreateClaimedItemForm } from '../components/claimed-items/CreateClaimedItemForm';
 import { ConfirmDialog } from '../components/common/ConfirmDialog';
 import { useToast } from '../hooks/useToast';
-import { PlusIcon } from '@heroicons/react/24/outline';
 
 export const ClaimedItemsPage = () => {
   const {

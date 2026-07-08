@@ -1,5 +1,5 @@
 // src/pages/LostItemsPage.tsx
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useLostItems } from '../hooks/useLostItems';
 import { useSignalR } from '../hooks/useSignalR';
 import { LostItemList } from '../components/lost-items/LostItemList';

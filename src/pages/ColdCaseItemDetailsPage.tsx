@@ -1,5 +1,5 @@
 // src/pages/ColdCaseItemDetailsPage.tsx
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { coldCaseItemsApi } from '../api/cold-case-items';
 import type { ColdCaseItem } from '../types/cold-case-item.types';

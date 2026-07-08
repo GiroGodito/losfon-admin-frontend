@@ -7,8 +7,6 @@ import { Select } from '../common/Select';
 import { useToast } from '../../hooks/useToast';
 import { uploadApi } from '../../api/upload';
 import { claimedItemsApi } from '../../api/claimed-items';
-import { lostItemsApi } from '../../api/lost-items';
-import { InformationCircleIcon } from '@heroicons/react/24/outline';
 
 interface UserOption {
   id: number;

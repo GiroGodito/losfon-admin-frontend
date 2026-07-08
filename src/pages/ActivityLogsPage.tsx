@@ -1,5 +1,4 @@
 // src/pages/ActivityLogsPage.tsx
-import React from 'react';
 import { useActivityLogs } from '../hooks/useActivityLogs';
 import { ActivityLogList } from '../components/activity-logs/ActivityLogList';
 // import { DocumentTextIcon } from '@heroicons/react/24/outline';
