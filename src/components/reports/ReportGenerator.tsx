@@ -6,7 +6,7 @@ import { DateRangePicker } from '../common/DateRangePicker';
 import { SearchInput } from '../common/SearchInput';
 import { useToast } from '../../hooks/useToast';
 import { pdfApi } from '../../api/pdf';
-import { EyeIcon } from '@heroicons/react/24/outline';
+import { DocumentArrowDownIcon, EyeIcon } from '@heroicons/react/24/outline';
 
 interface ReportGeneratorProps {
   reportTypes: { value: string; label: string }[];
@@ -181,7 +181,7 @@ export const ReportGenerator: React.FC<ReportGeneratorProps> = ({
           <EyeIcon className="w-5 h-5 mr-2" />
           Preview Report
         </Button>
-        {/* <Button
+        <Button
           type="button"
           variant="glass-green"
           isLoading={isGenerating || isLoading}
@@ -190,7 +190,7 @@ export const ReportGenerator: React.FC<ReportGeneratorProps> = ({
         >
           <DocumentArrowDownIcon className="w-5 h-5 mr-2" />
           Download PDF
-        </Button> */}
+        </Button>
       </div>
     </form>
   );
