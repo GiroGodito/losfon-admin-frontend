@@ -20,7 +20,7 @@ import { useActivityLogs } from '../hooks/useActivityLogs';
 
 export const DashboardPage = () => {
   // Fetch activity logs for recent activity
-  const { logs, isLoading: logsLoading, fetchLogs } = useActivityLogs({ page: 1, pageSize: 5 });
+  const { logs, isLoading: logsLoading, fetchLogs } = useActivityLogs({ page: 1, pageSize: 4 });
   
   // Fetch with pageSize: 1 to get pagination data with totalCount
   const { items: lostItems, pagination: lostPagination } = useLostItems({ page: 1, pageSize: 1 });
