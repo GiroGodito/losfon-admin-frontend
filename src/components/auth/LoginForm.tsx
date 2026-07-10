@@ -112,7 +112,7 @@ export const LoginForm = () => {
 
             <Button
               type="submit"
-              variant="primary"
+              variant="glass-green"
               fullWidth
               isLoading={isLoading}
               disabled={isRateLimited}
