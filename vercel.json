@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    {
+      "source": "/api/(.*)",
+      "destination": "https://losfonapp.runasp.net/api/$1"
+    }
+  ]
+}
