@@ -66,6 +66,7 @@ export const LoginForm = () => {
               hover:border-green-500/30
               hover:shadow-green-500/20
               hover:scale-[1.02]
+              mb-4
             ">
               <span className="text-green-400 font-bold text-2xl group-hover:text-green-300 transition-colors">
                 LF
