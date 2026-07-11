@@ -27,13 +27,28 @@
 import { formatDistanceToNow } from 'date-fns';
 
 /**
- * Format a date to local timezone without extra packages
- * Uses native JavaScript Date methods that automatically handle timezone conversion
+ * Parse date STRICTLY as UTC, then convert to local
+ * This forces JavaScript to treat the string as UTC even if it doesn't have a 'Z'
  */
-export const formatDate = (date: string | Date, formatStr: string = 'MMM dd, yyyy'): string => {
-  const dateObj = typeof date === 'string' ? new Date(date) : date;
+const parseDate = (date: string | Date): Date => {
+  if (date instanceof Date) return date;
   
-  // ✅ JavaScript Date automatically converts UTC to local timezone
+  // ✅ APPEND 'Z' to force UTC parsing
+  const utcString = date.endsWith('Z') ? date : date + 'Z';
+  const utcDate = new Date(utcString);
+  
+  // ✅ Log for debugging
+  console.log('📅 RAW:', date);
+  console.log('📅 UTC STRING:', utcString);
+  console.log('📅 PARSED UTC:', utcDate);
+  console.log('📅 LOCAL TIME:', utcDate.toLocaleString());
+  
+  return utcDate;
+};
+
+export const formatDate = (date: string | Date, formatStr: string = 'MMM dd, yyyy'): string => {
+  const dateObj = parseDate(date);
+  
   return dateObj.toLocaleString('en-US', {
     month: 'short',
     day: '2-digit',
@@ -42,9 +57,9 @@ export const formatDate = (date: string | Date, formatStr: string = 'MMM dd, yyy
 };
 
 export const formatDateWithTime = (date: string | Date): string => {
-  const dateObj = typeof date === 'string' ? new Date(date) : date;
+  const dateObj = parseDate(date);
   
-  // ✅ Automatically converts UTC to local timezone
+  // ✅ Force display in LOCAL timezone
   return dateObj.toLocaleString('en-US', {
     month: 'short',
     day: '2-digit',
@@ -52,11 +67,12 @@ export const formatDateWithTime = (date: string | Date): string => {
     hour: '2-digit',
     minute: '2-digit',
     hour12: true,
+    timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone, // ← Force local
   });
 };
 
 export const formatRelativeTime = (date: string | Date): string => {
-  const dateObj = typeof date === 'string' ? new Date(date) : date;
+  const dateObj = parseDate(date);
   return formatDistanceToNow(dateObj, { addSuffix: true });
 };
 
