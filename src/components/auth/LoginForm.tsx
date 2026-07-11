@@ -49,8 +49,27 @@ export const LoginForm = () => {
       <div className="w-full max-w-md">
         <div className="bg-gray-900 rounded-2xl shadow-2xl border border-green-500/20 p-8">
           <div className="text-center mb-8">
-            <div className="w-16 h-16 bg-gradient-to-br from-green-500 to-green-400 rounded-2xl flex items-center justify-center mx-auto shadow-lg shadow-green-500/30">
+            {/* <div className="w-16 h-16 bg-gradient-to-br from-green-500 to-green-400 rounded-2xl flex items-center justify-center mx-auto shadow-lg shadow-green-500/30">
               <span className="text-white font-bold text-2xl">LF</span>
+            </div> */}
+            <div className="
+              w-16 h-16 
+              bg-green-500/10 backdrop-blur-sm 
+              border border-green-500/20 
+              rounded-2xl 
+              flex items-center justify-center 
+              mx-auto
+              shadow-sm
+              shadow-green-500/5
+              transition-all duration-300
+              hover:bg-green-500/20
+              hover:border-green-500/30
+              hover:shadow-green-500/20
+              hover:scale-[1.02]
+            ">
+              <span className="text-green-400 font-bold text-2xl group-hover:text-green-300 transition-colors">
+                LF
+              </span>
             </div>
             <h1 className="text-2xl font-bold text-white mt-4">LosFon Admin</h1>
             <p className="text-gray-400 mt-1">Sign in to manage the system</p>
