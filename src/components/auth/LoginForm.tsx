@@ -71,7 +71,7 @@ export const LoginForm = () => {
                 LF
               </span>
             </div>
-            <h1 className="text-2xl font-bold text-white mt-4">LosFon Admin</h1>
+            {/* <h1 className="text-2xl font-bold text-white mt-4">LosFon Admin</h1> */}
             <p className="text-gray-400 mt-1">Sign in to manage the system</p>
             <div className="mt-2 inline-flex items-center gap-1.5 text-xs text-green-400/70 bg-green-500/10 px-3 py-1 rounded-full border border-green-500/20">
               <ShieldCheckIcon className="w-3.5 h-3.5" />
