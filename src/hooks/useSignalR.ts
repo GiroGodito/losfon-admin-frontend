@@ -7,7 +7,8 @@ const SIGNALR_URL = import.meta.env.VITE_SIGNALR_URL || 'https://localhost:7149/
 
 export const useSignalR = (
   onNewLostItem?: (data: any) => void,
-  onLostItemCancelled?: (data: any) => void
+  onLostItemCancelled?: (data: any) => void,
+  onNewExpiredItems?: (data: any) => void // <-- NEW PARAMETER
 ) => {
   const { isAuthenticated } = useAuth();
   const connectionRef = useRef<signalR.HubConnection | null>(null);
@@ -16,11 +17,13 @@ export const useSignalR = (
   
   const onNewLostItemRef = useRef(onNewLostItem);
   const onLostItemCancelledRef = useRef(onLostItemCancelled);
+  const onNewExpiredItemsRef = useRef(onNewExpiredItems); // <-- NEW REF
   
   useEffect(() => {
     onNewLostItemRef.current = onNewLostItem;
     onLostItemCancelledRef.current = onLostItemCancelled;
-  }, [onNewLostItem, onLostItemCancelled]);
+    onNewExpiredItemsRef.current = onNewExpiredItems;  // <-- NEW REF
+  }, [onNewLostItem, onLostItemCancelled,onNewExpiredItems]);
 
   useEffect(() => {
     if (!isAuthenticated) {
@@ -62,6 +65,15 @@ export const useSignalR = (
       setLastNotification(data);
       if (onLostItemCancelledRef.current) {
         onLostItemCancelledRef.current(data);
+      }
+    });
+
+    // ✅ NEW EXPIRED ITEM <-- NEW 
+     connection.on('NewExpiredItems', (data) => {
+      console.log('⏰ New expired items:', data);
+      setLastNotification(data);
+      if (onNewExpiredItemsRef.current) {
+        onNewExpiredItemsRef.current(data);
       }
     });
 
