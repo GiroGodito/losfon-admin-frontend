@@ -280,6 +280,12 @@ const navItems: NavItem[] = [
     icon: UserCircleIcon,
     iconSolid: UserCircleIconSolid,
   },
+  {
+    path: '/settings',
+    label: 'Settings',
+    icon: Cog6ToothIcon,
+    iconSolid: Cog6ToothIconSolid,
+  },
 ];
 
 interface NavigationProps {

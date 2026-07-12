@@ -21,6 +21,7 @@ import { FoundItemDetailsPage } from '../pages/FoundItemDetailsPage';
 import { ClaimedItemDetailsPage } from '../pages/ClaimedItemDetailsPage';
 import { ColdCaseItemDetailsPage } from '../pages/ColdCaseItemDetailsPage';
 import { DisposalItemDetailsPage } from '../pages/DisposalItemDetailsPage';
+import { SettingsPage } from '../pages/SettingsPage';
 
 export const router = createBrowserRouter([
   {
@@ -51,6 +52,7 @@ export const router = createBrowserRouter([
           { path: '/print-settings', element: <PrintSettingsPage /> },
           { path: '/profile', element: <ProfilePage /> },
           { path: '/reports', element: <ReportsPage /> },
+          { path: '/settings', element: <SettingsPage /> },
         ],
       },
     ],
