@@ -107,10 +107,10 @@ export const SystemSettings: React.FC = () => {
               </div>
             ) : (
               <div className="mt-1.5">
-                <p className="text-gray-300 text-sm">
+                <p className="text-gray-300 text-sm text-left">
                   Items expire after <span className="font-bold text-white">{expirationDays}</span> days
                 </p>
-                <p className="text-xs text-gray-500 mt-0.5">
+                <p className="text-xs text-gray-500 mt-0.5 text-left">
                   After this period, Lost Items go to Cold Case and Found Items go to Disposal
                 </p>
               </div>
