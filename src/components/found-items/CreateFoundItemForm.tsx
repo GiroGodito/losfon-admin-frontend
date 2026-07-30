@@ -117,13 +117,13 @@ export const CreateFoundItemForm: React.FC<CreateFoundItemFormProps> = ({
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
-      {/* Info Banner */}
+      {/* Info Banner
       <div className="bg-green-500/10 border border-green-500/30 rounded-lg p-4 mb-4">
         <p className="text-sm text-green-400 text-left">
           This item will be added to the <strong>Found Items</strong> list.
           It will remain active for 180 days before being moved to Disposal.
         </p>
-      </div>
+      </div> */}
 
       {/* Item Description */}
       <div>
