@@ -100,33 +100,33 @@ export const ClaimedItemDetailsPage = () => {
   }, [id, showToast]);
 
   // ✅ Undo Mark as Claimed – reverts to Found Item
-  const handleUndoMarkAsClaimed = async (id: number) => {
-    if (!item?.sourceFoundItemId) {
-      showToast('This claimed item has no associated found item to undo.', 'error');
-      return;
-    }
-    try {
-      const response = await foundItemsApi.undoMarkAsClaimed(item.sourceFoundItemId);
-      if (response.success) {
-        showToast(response.message || 'Undo successful – item moved back to Found Items', 'success');
-        navigate('/found-items');
-      } else {
-        showToast(response.message || 'Undo failed', 'error');
-      }
-    } catch (error: any) {
-      showToast(error.message || 'Undo failed', 'error');
-    }
-  };
+  // const handleUndoMarkAsClaimed = async (id: number) => {
+  //   if (!item?.sourceFoundItemId) {
+  //     showToast('This claimed item has no associated found item to undo.', 'error');
+  //     return;
+  //   }
+  //   try {
+  //     const response = await foundItemsApi.undoMarkAsClaimed(item.sourceFoundItemId);
+  //     if (response.success) {
+  //       showToast(response.message || 'Undo successful – item moved back to Found Items', 'success');
+  //       navigate('/found-items');
+  //     } else {
+  //       showToast(response.message || 'Undo failed', 'error');
+  //     }
+  //   } catch (error: any) {
+  //     showToast(error.message || 'Undo failed', 'error');
+  //   }
+  // };
 
-  const handleDelete = async (id: number) => {
-    try {
-      await claimedItemsApi.delete(id);
-      showToast('Claim record deleted successfully', 'success');
-      navigate('/claimed-items');
-    } catch (error: any) {
-      showToast(error.message || 'Failed to delete claim record', 'error');
-    }
-  };
+  // const handleDelete = async (id: number) => {
+  //   try {
+  //     await claimedItemsApi.delete(id);
+  //     showToast('Claim record deleted successfully', 'success');
+  //     navigate('/claimed-items');
+  //   } catch (error: any) {
+  //     showToast(error.message || 'Failed to delete claim record', 'error');
+  //   }
+  // };
 
   if (isLoading) {
     return (
@@ -153,8 +153,8 @@ export const ClaimedItemDetailsPage = () => {
     <div className="max-w-4xl mx-auto py-8 px-4">
       <ClaimedItemDetails
         item={item}
-        onUndoMarkAsClaimed={handleUndoMarkAsClaimed}   // ✅ Pass undo handler
-        onDelete={handleDelete}
+        // onUndoMarkAsClaimed={handleUndoMarkAsClaimed}   // ✅ Pass undo handler
+        // onDelete={handleDelete}
         showActions={true}
       />
     </div>

@@ -352,64 +352,64 @@ export const FoundItemDetails: React.FC<FoundItemDetailsProps> = ({
     return <span className={getBadgeClasses(status)}>{status}</span>;
   };
 
-  const renderActions = (): React.ReactNode => {
-    if (!showActions) return null;
+  // const renderActions = (): React.ReactNode => {
+  //   if (!showActions) return null;
 
-    // Active found items (not claimed, not expired)
-    if (!item.isClaimed && !item.isExpired) {
-      return (
-        <div className="mt-6 pt-6 border-t border-gray-800">
-          <div className="flex flex-wrap gap-3">
-            {/* ✅ Undo Mark as Found – only if the item came from a lost item */}
-            {onUndoMarkAsFound && item.sourceLostItemId && (
-              <Button variant="glass-yellow" onClick={() => onUndoMarkAsFound(item.id)}>
-                <ArrowUturnLeftIcon className="w-4 h-4 mr-2" />
-                Undo Mark as Found
-              </Button>
-            )}
-            {onMarkAsClaimed && (
-              <Button variant="glass-green" onClick={() => onMarkAsClaimed(item.id)}>
-                <CheckCircleIcon className="w-4 h-4 mr-2" />
-                Mark as Claimed
-              </Button>
-            )}
-            {onDelete && (
-              <Button variant="glass-red" onClick={() => onDelete(item.id)}>
-                <TrashIcon className="w-4 h-4 mr-2" />
-                Delete Item
-              </Button>
-            )}
-          </div>
-        </div>
-      );
-    }
+  //   // Active found items (not claimed, not expired)
+  //   if (!item.isClaimed && !item.isExpired) {
+  //     return (
+  //       <div className="mt-6 pt-6 border-t border-gray-800">
+  //         <div className="flex flex-wrap gap-3">
+  //           {/* ✅ Undo Mark as Found – only if the item came from a lost item */}
+  //           {onUndoMarkAsFound && item.sourceLostItemId && (
+  //             <Button variant="glass-yellow" onClick={() => onUndoMarkAsFound(item.id)}>
+  //               <ArrowUturnLeftIcon className="w-4 h-4 mr-2" />
+  //               Undo Mark as Found
+  //             </Button>
+  //           )}
+  //           {onMarkAsClaimed && (
+  //             <Button variant="glass-green" onClick={() => onMarkAsClaimed(item.id)}>
+  //               <CheckCircleIcon className="w-4 h-4 mr-2" />
+  //               Mark as Claimed
+  //             </Button>
+  //           )}
+  //           {onDelete && (
+  //             <Button variant="glass-red" onClick={() => onDelete(item.id)}>
+  //               <TrashIcon className="w-4 h-4 mr-2" />
+  //               Delete Item
+  //             </Button>
+  //           )}
+  //         </div>
+  //       </div>
+  //     );
+  //   }
 
-    // If item is claimed (shouldn't happen here, but if it does, show only Delete)
-    if (item.isClaimed && onDelete) {
-      return (
-        <div className="mt-6 pt-6 border-t border-gray-800">
-          <Button variant="glass-red" onClick={() => onDelete(item.id)}>
-            <TrashIcon className="w-4 h-4 mr-2" />
-            Delete Item
-          </Button>
-        </div>
-      );
-    }
+  //   // If item is claimed (shouldn't happen here, but if it does, show only Delete)
+  //   if (item.isClaimed && onDelete) {
+  //     return (
+  //       <div className="mt-6 pt-6 border-t border-gray-800">
+  //         <Button variant="glass-red" onClick={() => onDelete(item.id)}>
+  //           <TrashIcon className="w-4 h-4 mr-2" />
+  //           Delete Item
+  //         </Button>
+  //       </div>
+  //     );
+  //   }
 
-    // Expired items: only Delete
-    if (item.isExpired && onDelete) {
-      return (
-        <div className="mt-6 pt-6 border-t border-gray-800">
-          <Button variant="glass-red" onClick={() => onDelete(item.id)}>
-            <TrashIcon className="w-4 h-4 mr-2" />
-            Delete Item
-          </Button>
-        </div>
-      );
-    }
+  //   // Expired items: only Delete
+  //   if (item.isExpired && onDelete) {
+  //     return (
+  //       <div className="mt-6 pt-6 border-t border-gray-800">
+  //         <Button variant="glass-red" onClick={() => onDelete(item.id)}>
+  //           <TrashIcon className="w-4 h-4 mr-2" />
+  //           Delete Item
+  //         </Button>
+  //       </div>
+  //     );
+  //   }
 
-    return null;
-  };
+  //   return null;
+  // };
 
   const renderResolvedIndicator = (): React.ReactNode => {
     if (!item.isClaimed) return null;
@@ -528,7 +528,7 @@ export const FoundItemDetails: React.FC<FoundItemDetailsProps> = ({
         </div>
 
         {/* Actions */}
-        {renderActions()}
+        {/* {renderActions()} */}
         {renderResolvedIndicator()}
       </div>
     </div>

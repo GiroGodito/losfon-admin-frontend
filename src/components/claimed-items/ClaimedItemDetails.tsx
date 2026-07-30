@@ -277,28 +277,28 @@ export const ClaimedItemDetails: React.FC<ClaimedItemDetailsProps> = ({
     return <span className={classes}>Resolved</span>;
   };
 
-  const renderActions = (): React.ReactNode => {
-    if (!showActions) return null;
+  // const renderActions = (): React.ReactNode => {
+  //   if (!showActions) return null;
 
-    return (
-      <div className="mt-6 pt-6 border-t border-gray-800">
-        <div className="flex flex-wrap gap-3">
-          {onUndoMarkAsClaimed && item.sourceFoundItemId && (
-            <Button variant="glass-yellow" onClick={() => onUndoMarkAsClaimed(item.id)}>
-              <ArrowUturnLeftIcon className="w-4 h-4 mr-2" />
-              Undo Mark as Claimed
-            </Button>
-          )}
-          {onDelete && (
-            <Button variant="glass-red" onClick={() => onDelete(item.id)}>
-              <TrashIcon className="w-4 h-4 mr-2" />
-              Delete Claim Record
-            </Button>
-          )}
-        </div>
-      </div>
-    );
-  };
+  //   return (
+  //     <div className="mt-6 pt-6 border-t border-gray-800">
+  //       <div className="flex flex-wrap gap-3">
+  //         {onUndoMarkAsClaimed && item.sourceFoundItemId && (
+  //           <Button variant="glass-yellow" onClick={() => onUndoMarkAsClaimed(item.id)}>
+  //             <ArrowUturnLeftIcon className="w-4 h-4 mr-2" />
+  //             Undo Mark as Claimed
+  //           </Button>
+  //         )}
+  //         {onDelete && (
+  //           <Button variant="glass-red" onClick={() => onDelete(item.id)}>
+  //             <TrashIcon className="w-4 h-4 mr-2" />
+  //             Delete Claim Record
+  //           </Button>
+  //         )}
+  //       </div>
+  //     </div>
+  //   );
+  // };
 
   const hasImage = !!item.filePath;
 
@@ -410,7 +410,7 @@ export const ClaimedItemDetails: React.FC<ClaimedItemDetailsProps> = ({
         </div>
 
         {/* Actions */}
-        {renderActions()}
+        {/* {renderActions()} */}
       </div>
     </div>
   );

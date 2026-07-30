@@ -103,33 +103,33 @@ export const FoundItemDetailsPage = () => {
   const handleMarkAsClaimed = async (id: number) => {};
 
   // ✅ Undo Mark as Found – reverts to Lost Item (using sourceLostItemId)
-  const handleUndoMarkAsFound = async (id: number) => {
-    if (!item?.sourceLostItemId) {
-      showToast('This found item has no associated lost item to undo.', 'error');
-      return;
-    }
-    try {
-      const response = await lostItemsApi.undoMarkAsDone(item.sourceLostItemId);
-      if (response.success) {
-        showToast(response.message || 'Undo successful – item moved back to Lost Items', 'success');
-        navigate('/lost-items');
-      } else {
-        showToast(response.message || 'Undo failed', 'error');
-      }
-    } catch (error: any) {
-      showToast(error.message || 'Undo failed', 'error');
-    }
-  };
+  // const handleUndoMarkAsFound = async (id: number) => {
+  //   if (!item?.sourceLostItemId) {
+  //     showToast('This found item has no associated lost item to undo.', 'error');
+  //     return;
+  //   }
+  //   try {
+  //     const response = await lostItemsApi.undoMarkAsDone(item.sourceLostItemId);
+  //     if (response.success) {
+  //       showToast(response.message || 'Undo successful – item moved back to Lost Items', 'success');
+  //       navigate('/lost-items');
+  //     } else {
+  //       showToast(response.message || 'Undo failed', 'error');
+  //     }
+  //   } catch (error: any) {
+  //     showToast(error.message || 'Undo failed', 'error');
+  //   }
+  // };
 
-  const handleDelete = async (id: number) => {
-    try {
-      await foundItemsApi.delete(id);
-      showToast('Item deleted successfully', 'success');
-      navigate('/found-items');
-    } catch (error: any) {
-      showToast(error.message || 'Failed to delete item', 'error');
-    }
-  };
+  // const handleDelete = async (id: number) => {
+  //   try {
+  //     await foundItemsApi.delete(id);
+  //     showToast('Item deleted successfully', 'success');
+  //     navigate('/found-items');
+  //   } catch (error: any) {
+  //     showToast(error.message || 'Failed to delete item', 'error');
+  //   }
+  // };
 
   if (isLoading) {
     return (
@@ -157,8 +157,8 @@ export const FoundItemDetailsPage = () => {
       <FoundItemDetails
         item={item}
         onMarkAsClaimed={handleMarkAsClaimed}
-        onUndoMarkAsFound={handleUndoMarkAsFound}   // ✅ Pass undo handler
-        onDelete={handleDelete}
+        // onUndoMarkAsFound={handleUndoMarkAsFound}   // ✅ Pass undo handler
+        // onDelete={handleDelete}
         showActions={true}
       />
     </div>
