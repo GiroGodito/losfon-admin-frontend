@@ -90,28 +90,59 @@ export const LostItemDetails: React.FC<LostItemDetailsProps> = ({
     );
   };
 
-  const renderActions = (): React.ReactNode => {
-    if (!showActions || item.isDone || item.isExpired) return null;
+  // const renderActions = (): React.ReactNode => {
+  //   if (!showActions || item.isDone || item.isExpired) return null;
 
-    return (
-      <div className="mt-6 pt-6 border-t border-gray-800">
-        <div className="flex flex-wrap gap-3">
-          {onMarkAsDone && (
-            <Button variant="success" onClick={() => onMarkAsDone(item.id)}>
-              <CheckCircleIcon className="w-4 h-4 mr-2" />
-              Mark as Found
-            </Button>
-          )}
-          {onDelete && (
-            <Button variant="danger" onClick={() => onDelete(item.id)}>
-              <TrashIcon className="w-4 h-4 mr-2" />
-              Delete Report
-            </Button>
-          )}
-        </div>
+  //   return (
+  //     <div className="mt-6 pt-6 border-t border-gray-800">
+  //       <div className="flex flex-wrap gap-3">
+  //         {onMarkAsDone && (
+  //           <Button variant="success" onClick={() => onMarkAsDone(item.id)}>
+  //             <CheckCircleIcon className="w-4 h-4 mr-2" />
+  //             Mark as Found
+  //           </Button>
+  //         )}
+  //         {onDelete && (
+  //           <Button variant="danger" onClick={() => onDelete(item.id)}>
+  //             <TrashIcon className="w-4 h-4 mr-2" />
+  //             Delete Report
+  //           </Button>
+  //         )}
+  //       </div>
+  //     </div>
+  //   );
+  // };
+
+  const renderActions = (): React.ReactNode => {
+  if (!showActions || item.isDone || item.isExpired) return null;
+
+  return (
+    <div className="mt-6 pt-6 border-t border-gray-800">
+      <div className="flex gap-3">
+        {onMarkAsDone && (
+          <Button
+            variant="success"
+            onClick={() => onMarkAsDone(item.id)}
+            className="flex-1"
+          >
+            <CheckCircleIcon className="w-4 h-4 mr-2" />
+            Mark as Found
+          </Button>
+        )}
+        {onDelete && (
+          <Button
+            variant="danger"
+            onClick={() => onDelete(item.id)}
+            className="flex-1"
+          >
+            <TrashIcon className="w-4 h-4 mr-2" />
+            Delete Report
+          </Button>
+        )}
       </div>
-    );
-  };
+    </div>
+  );
+};
 
   const renderResolvedIndicator = (): React.ReactNode => {
     if (!item.isDone) return null;

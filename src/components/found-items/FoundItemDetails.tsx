@@ -410,6 +410,36 @@ export const FoundItemDetails: React.FC<FoundItemDetailsProps> = ({
 
   //   return null;
   // };
+  const renderActions = (): React.ReactNode => {
+  if (!showActions || item.isClaimed || item.isExpired) return null;
+
+  return (
+    <div className="mt-6 pt-6 border-t border-gray-800">
+      <div className="flex gap-3">
+        {onMarkAsClaimed && (
+          <Button
+            variant="glass-green"
+            onClick={() => onMarkAsClaimed(item.id)}
+            className="flex-1"
+          >
+            <CheckCircleIcon className="w-4 h-4 mr-2" />
+            Mark as Claimed
+          </Button>
+        )}
+        {onDelete && (
+          <Button
+            variant="glass-red"
+            onClick={() => onDelete(item.id)}
+            className="flex-1"
+          >
+            <TrashIcon className="w-4 h-4 mr-2" />
+            Delete Item
+          </Button>
+        )}
+      </div>
+    </div>
+  );
+};
 
   const renderResolvedIndicator = (): React.ReactNode => {
     if (!item.isClaimed) return null;
@@ -528,7 +558,7 @@ export const FoundItemDetails: React.FC<FoundItemDetailsProps> = ({
         </div>
 
         {/* Actions */}
-        {/* {renderActions()} */}
+        {renderActions()}
         {renderResolvedIndicator()}
       </div>
     </div>
