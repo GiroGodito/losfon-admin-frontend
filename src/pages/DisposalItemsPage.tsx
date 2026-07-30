@@ -60,7 +60,7 @@ export const DisposalItemsPage = () => {
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div className="text-left"> {/* ✅ WRAP in div with text-left */}
           <h2 className="text-2xl font-bold text-white">Disposal Items</h2>
-          <p className="text-gray-400 text-sm mt-1">Items pending disposal after 180 days</p>
+          <p className="text-gray-400 text-sm mt-1">Unclaimed Items ready for donation</p>
         </div>
         <div className="flex flex-wrap gap-2">
           <Button variant="glass-green" size="sm" onClick={handleMarkAllAsSeen}>
