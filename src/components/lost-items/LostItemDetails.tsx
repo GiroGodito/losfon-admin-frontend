@@ -440,13 +440,13 @@ export const LostItemDetails: React.FC<LostItemDetailsProps> = ({
       <div className="mt-6 pt-6 border-t border-gray-800">
         <div className="grid grid-cols-2 gap-3">
           {onMarkAsDone && (
-            <Button variant="success" onClick={() => onMarkAsDone(item.id)}>
+            <Button variant="glass-green" onClick={() => onMarkAsDone(item.id)}>
               <CheckCircleIcon className="w-4 h-4 mr-2" />
               Mark as Found
             </Button>
           )}
           {onDelete && (
-            <Button variant="danger" onClick={() => onDelete(item.id)}>
+            <Button variant="glass-red" onClick={() => onDelete(item.id)}>
               <TrashIcon className="w-4 h-4 mr-2" />
               Delete Report
             </Button>
