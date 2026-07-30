@@ -121,15 +121,15 @@ export const FoundItemDetailsPage = () => {
   //   }
   // };
 
-  // const handleDelete = async (id: number) => {
-  //   try {
-  //     await foundItemsApi.delete(id);
-  //     showToast('Item deleted successfully', 'success');
-  //     navigate('/found-items');
-  //   } catch (error: any) {
-  //     showToast(error.message || 'Failed to delete item', 'error');
-  //   }
-  // };
+  const handleDelete = async (id: number) => {
+    try {
+      await foundItemsApi.delete(id);
+      showToast('Item deleted successfully', 'success');
+      navigate('/found-items');
+    } catch (error: any) {
+      showToast(error.message || 'Failed to delete item', 'error');
+    }
+  };
 
   if (isLoading) {
     return (
@@ -158,7 +158,7 @@ export const FoundItemDetailsPage = () => {
         item={item}
         onMarkAsClaimed={handleMarkAsClaimed}
         // onUndoMarkAsFound={handleUndoMarkAsFound}   // ✅ Pass undo handler
-        // onDelete={handleDelete}
+        onDelete={handleDelete}
         showActions={true}
       />
     </div>
