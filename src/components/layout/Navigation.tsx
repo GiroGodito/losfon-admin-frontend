@@ -337,11 +337,9 @@ export const Navigation: React.FC<NavigationProps> = ({
 }) => {
   const location = useLocation();
 
-  // State for unseen counts
   const [coldCaseUnseenCount, setColdCaseUnseenCount] = useState(0);
   const [disposalUnseenCount, setDisposalUnseenCount] = useState(0);
 
-  // Fetch unseen counts on mount and when route changes (so it updates after marking seen)
   useEffect(() => {
     const fetchCounts = async () => {
       try {
@@ -356,7 +354,7 @@ export const Navigation: React.FC<NavigationProps> = ({
       }
     };
     fetchCounts();
-  }, [location.pathname]); // refetch when navigating
+  }, [location.pathname]);
 
   return (
     <nav className={`space-y-1 ${className}`}>
@@ -366,7 +364,6 @@ export const Navigation: React.FC<NavigationProps> = ({
           (item.path !== '/' && location.pathname.startsWith(item.path));
         const Icon = isActive ? item.iconSolid : item.icon;
 
-        // Determine badge count for this nav item
         let badgeCount = 0;
         if (item.path === '/cold-case') {
           badgeCount = coldCaseUnseenCount;
@@ -391,7 +388,7 @@ export const Navigation: React.FC<NavigationProps> = ({
             <Icon className="w-5 h-5 flex-shrink-0" />
             <span className="text-sm font-medium">{item.label}</span>
 
-            {/* Badge with fixed width to prevent layout shift */}
+            {/* Badge with fixed width – always rendered to avoid layout shift */}
             <span
               className={`ml-auto flex h-5 min-w-5 items-center justify-center rounded-full px-1.5 text-xs font-bold text-white transition-all ${
                 badgeCount > 0
@@ -402,9 +399,7 @@ export const Navigation: React.FC<NavigationProps> = ({
               {badgeCount > 0 ? (badgeCount > 9 ? '9+' : badgeCount) : ''}
             </span>
 
-            {isActive && (
-              <span className="w-1 h-6 bg-green-500 rounded-full shadow-lg shadow-green-500/50"></span>
-            )}
+            {/* ✅ Active indicator line removed to prevent misalignment */}
           </NavLink>
         );
       })}
