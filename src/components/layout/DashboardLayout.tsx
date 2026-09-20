@@ -109,7 +109,7 @@
 
 // src/components/layout/DashboardLayout.tsx
 import React, { useState, useEffect } from 'react';
-import { Outlet, useNavigate } from 'react-router-dom';
+import { Link, Outlet, useNavigate } from 'react-router-dom';
 import { Header } from './Header';
 import { Footer } from './Footer';
 import { Navigation } from './Navigation';
@@ -151,14 +151,11 @@ export const DashboardLayout: React.FC = () => {
   };
 
   return (
-    // ✅ h-screen + overflow-hidden: page never scrolls as a whole;
-    //    only <main> scrolls. Keeps sidebar sticky.
     <div className="h-screen flex flex-col bg-gradient-to-br from-gray-900 via-gray-800 to-black overflow-hidden">
       <Header onMenuToggle={toggleSidebar} />
 
-      {/* min-h-0 is required so flex children can actually scroll */}
       <div className="flex flex-1 min-h-0 overflow-hidden">
-        {/* Mobile overlay: z-30 so it sits BELOW the sidebar (z-50) */}
+        {/* Mobile overlay — z-30 so it sits below the sidebar (z-50) */}
         {sidebarOpen && (
           <div
             className="fixed inset-0 z-30 bg-black/60 backdrop-blur-sm md:hidden"
@@ -167,10 +164,14 @@ export const DashboardLayout: React.FC = () => {
           />
         )}
 
-        {/* Sidebar */}
+        {/* Sidebar: below the header on mobile, aligned with row on desktop */}
         <aside
           className={`
-            fixed md:sticky top-0 z-50 h-screen md:h-full w-72
+            fixed md:sticky
+            top-16 md:top-0
+            z-50
+            h-[calc(100vh-4rem)] md:h-full
+            w-72
             bg-gray-900/95 backdrop-blur-sm border-r border-gray-800
             transition-transform duration-300 ease-in-out
             ${sidebarOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}
@@ -185,17 +186,40 @@ export const DashboardLayout: React.FC = () => {
             <XMarkIcon className="w-6 h-6" />
           </button>
 
-          {/*
-            ✅ KEY FIX: pt-20 on mobile pushes the nav content below the
-            64px sticky header so "Dashboard" isn't hidden behind it.
-            On desktop (md:pt-4), the sidebar is already below the header
-            thanks to the flex layout, so no extra padding is needed.
-          */}
-          <div className="flex-1 min-h-0 overflow-y-auto pt-20 md:pt-4 px-3 pb-3">
+          {/* ✅ Logo — MOBILE ONLY (header has it on desktop) */}
+          <div className="md:hidden flex-shrink-0 px-4 pt-4 pb-3 border-b border-gray-800">
+            <Link
+              to="/dashboard"
+              onClick={closeSidebar}
+              className="flex items-center gap-2.5 group"
+            >
+              <div className="
+                w-9 h-9 
+                bg-green-500/10 backdrop-blur-sm 
+                border border-green-500/20 
+                rounded-xl 
+                flex items-center justify-center 
+                group-hover:bg-green-500/20
+                group-hover:border-green-500/30
+                transition-all duration-300
+                flex-shrink-0
+              ">
+                <span className="text-green-400 font-bold text-base group-hover:text-green-300 transition-colors">
+                  LF
+                </span>
+              </div>
+              <span className="text-white font-semibold text-xl tracking-tight">
+                LosFon <span className="text-green-400">Admin</span>
+              </span>
+            </Link>
+          </div>
+
+          {/* Nav list — scrolls independently */}
+          <div className="flex-1 min-h-0 overflow-y-auto pt-3 px-3 pb-3">
             <Navigation onItemClick={closeSidebar} />
           </div>
 
-          {/* User footer pinned at bottom of sidebar (doesn't scroll) */}
+          {/* User footer pinned at bottom */}
           <div className="p-4 border-t border-gray-800 flex-shrink-0">
             <div className="flex items-center gap-3 text-sm">
               <div className="w-10 h-10 bg-gradient-to-br from-green-500/20 to-blue-500/20 rounded-full flex items-center justify-center border border-green-500/30 flex-shrink-0">
@@ -222,7 +246,6 @@ export const DashboardLayout: React.FC = () => {
           </div>
         </aside>
 
-        {/* Main content — the ONLY scrolling area */}
         <main className="flex-1 min-h-0 overflow-y-auto p-4 md:p-6">
           <Outlet />
         </main>
