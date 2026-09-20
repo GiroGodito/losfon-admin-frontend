@@ -256,13 +256,32 @@ export interface PaginatedUserResponse {
   hasNextPage: boolean;
 }
 
+// // ✅ Convert a bare date (YYYY-MM-DD) into a full ISO string.
+// // End date must be end-of-day so items ON that day are included.
+// const formatDateParam = (date: string, isEndOfDay: boolean = false): string => {
+//   if (!date) return '';
+//   if (isEndOfDay) {
+//     return `${date}T23:59:59`;
+//   }
+//   return `${date}T00:00:00`;
+// };
+
 // ✅ Convert a bare date (YYYY-MM-DD) into a full ISO string.
-// End date must be end-of-day so items ON that day are included.
+// The backend compares with strict '<' on dateTo, so we send the NEXT day
+// at 00:00:00 to include the entire selected end day.
 const formatDateParam = (date: string, isEndOfDay: boolean = false): string => {
   if (!date) return '';
+
   if (isEndOfDay) {
-    return `${date}T23:59:59`;
+    // Parse YYYY-MM-DD and add one day
+    const [y, m, d] = date.split('-').map(Number);
+    const next = new Date(y, m - 1, d + 1);
+    const yyyy = next.getFullYear();
+    const mm = String(next.getMonth() + 1).padStart(2, '0');
+    const dd = String(next.getDate()).padStart(2, '0');
+    return `${yyyy}-${mm}-${dd}T00:00:00`;
   }
+
   return `${date}T00:00:00`;
 };
 
