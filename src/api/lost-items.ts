@@ -283,7 +283,7 @@ const formatDateParam = (date: string, isEndOfDay: boolean = false): string => {
   }
 
   return `${date}T00:00:00`;
-};
+}; 
 
 export const userApi = {
   getUsersForDropdown: (
