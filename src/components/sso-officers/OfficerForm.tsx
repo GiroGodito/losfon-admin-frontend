@@ -108,7 +108,6 @@
 
 
 
-
 // src/components/sso-officers/OfficerForm.tsx
 import React, { useState, useEffect } from 'react';
 import { Button } from '../common/Button';
@@ -128,15 +127,20 @@ interface FormErrors {
   contactInformation?: string;
 }
 
-// Local validators — kept in sync with src/utils/validators.ts
-const isValidEmail = (value: string): boolean =>
-  /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(value.trim());
-
+// ✅ PHONE-ONLY VALIDATOR (no email)
 const isValidPhone = (value: string): boolean => {
   const cleaned = value.replace(/[\s\-()]/g, '');
-  return cleaned.startsWith('+')
-    ? /^\+\d{7,15}$/.test(cleaned)
-    : /^09\d{9}$/.test(cleaned) || /^\d{7,15}$/.test(cleaned);
+  if (!cleaned) return false;
+
+  // Accepts:
+  //   +639171234567   → international
+  //   09171234567     → PH mobile (11 digits starting with 09)
+  //   9171234567      → bare 10-digit PH mobile
+  return (
+    /^\+\d{7,15}$/.test(cleaned) ||   // international format
+    /^09\d{9}$/.test(cleaned) ||      // PH mobile (0917…)
+    /^\d{7,15}$/.test(cleaned)        // generic digits 7–15 length
+  );
 };
 
 export const OfficerForm: React.FC<OfficerFormProps> = ({
@@ -160,7 +164,6 @@ export const OfficerForm: React.FC<OfficerFormProps> = ({
     }
   }, [initialData]);
 
-  // Single source of truth for validation
   const validate = (values: {
     firstName: string;
     lastName: string;
@@ -181,18 +184,15 @@ export const OfficerForm: React.FC<OfficerFormProps> = ({
     }
 
     if (!values.contactInformation.trim()) {
-      next.contactInformation = 'Contact information is required';
-    } else if (
-      !isValidEmail(values.contactInformation) &&
-      !isValidPhone(values.contactInformation)
-    ) {
-      next.contactInformation = 'Enter a valid phone number or email';
+      next.contactInformation = 'Contact number is required';
+    } else if (!isValidPhone(values.contactInformation)) {
+      // ✅ PHONE-ONLY message
+      next.contactInformation = 'Enter a valid phone number (e.g. 09171234567)';
     }
 
     return next;
   };
 
-  // Re-validate the whole form whenever a field changes
   const runValidation = (nextValues?: {
     firstName?: string;
     lastName?: string;
@@ -214,7 +214,6 @@ export const OfficerForm: React.FC<OfficerFormProps> = ({
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Mark every field as touched so all errors show at once
     setTouched({ firstName: true, lastName: true, contactInformation: true });
 
     const validationErrors = validate({
@@ -224,7 +223,6 @@ export const OfficerForm: React.FC<OfficerFormProps> = ({
     });
     setErrors(validationErrors);
 
-    // Stop here if anything is invalid
     if (Object.keys(validationErrors).length > 0) {
       return;
     }
@@ -245,20 +243,19 @@ export const OfficerForm: React.FC<OfficerFormProps> = ({
         setTouched({});
       }
     } catch (err) {
-      // Parent (useOfficers) already surfaces a toast; nothing else to do.
+      // parent handles the toast
     } finally {
       setIsSubmitting(false);
     }
   };
 
-  // Show error after blur OR after submit attempt
   const showError = (field: keyof FormErrors) =>
     touched[field] ? errors[field] : undefined;
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4" noValidate>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {/* First Name with asterisk and per-field error */}
+        {/* First Name */}
         <div>
           <label className="block text-sm font-medium text-gray-300 mb-1.5">
             First Name <span className="text-red-400">*</span>
@@ -276,7 +273,7 @@ export const OfficerForm: React.FC<OfficerFormProps> = ({
           />
         </div>
 
-        {/* Last Name with asterisk and per-field error */}
+        {/* Last Name */}
         <div>
           <label className="block text-sm font-medium text-gray-300 mb-1.5">
             Last Name <span className="text-red-400">*</span>
@@ -295,13 +292,15 @@ export const OfficerForm: React.FC<OfficerFormProps> = ({
         </div>
       </div>
 
-      {/* Contact Information with asterisk and per-field error */}
+      {/* Contact Number — PHONE ONLY now */}
       <div>
         <label className="block text-sm font-medium text-gray-300 mb-1.5">
-          Contact Information <span className="text-red-400">*</span>
+          Contact Number <span className="text-red-400">*</span>
         </label>
         <Input
-          placeholder="Phone number (e.g. 09171234567) or email"
+          type="tel"                              // ✅ tel input on mobile
+          inputMode="tel"                         // ✅ numeric keyboard hint
+          placeholder="e.g. 09171234567"          // ✅ phone-only placeholder
           value={contactInfo}
           onChange={(e) => {
             setContactInfo(e.target.value);
@@ -313,7 +312,7 @@ export const OfficerForm: React.FC<OfficerFormProps> = ({
         />
         {!showError('contactInformation') && (
           <p className="mt-1.5 text-xs text-gray-500">
-            Accepted formats: PH mobile (0917…), international (+639…), or a valid email address.
+            Accepted formats: 09171234567, 9171234567, or +639171234567
           </p>
         )}
       </div>
@@ -324,7 +323,6 @@ export const OfficerForm: React.FC<OfficerFormProps> = ({
           variant="glass-green"
           isLoading={isLoading || isSubmitting}
           className="flex-1"
-          // Keep the button clickable even when empty so validation can show errors
           disabled={false}
         >
           {initialData ? 'Update Officer' : 'Add Officer'}
