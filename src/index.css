@@ -111,3 +111,86 @@ code {
   padding: 4px 8px;
   background: var(--code-bg);
 }
+
+
+
+
+
+
+
+/* ============================================================
+   DATE INPUT FIX — prevents Chrome from growing the input and
+   overlapping the row below. Applies to every browser.
+   ============================================================ */
+.date-input {
+  width: 100%;
+  height: 40px;              /* pinned — Chrome cannot grow it */
+  min-height: 40px;
+  max-height: 40px;
+  padding: 0 12px;
+  background-color: rgba(31, 41, 55, 0.5);   /* gray-800/50 */
+  border: 1px solid #374151;                  /* gray-700 */
+  border-radius: 8px;
+  color: #ffffff;
+  font-size: 14px;
+  line-height: 40px;          /* vertical center */
+  box-sizing: border-box;
+  transition: all 0.2s ease;
+  -webkit-appearance: none;
+  appearance: none;
+  outline: none;
+}
+
+.date-input:hover {
+  border-color: #6b7280;      /* gray-500 */
+}
+
+.date-input:focus {
+  border-color: transparent;
+  box-shadow: 0 0 0 2px #22c55e;  /* green-500 ring */
+}
+
+/* Chrome / Edge / Safari — normalize the native picker button so it
+   cannot add extra height or padding to the input. */
+.date-input::-webkit-calendar-picker-indicator {
+  opacity: 0.7;
+  cursor: pointer;
+  margin: 0;
+  padding: 0;
+  width: 16px;
+  height: 16px;
+  filter: invert(0.7);
+}
+
+.date-input::-webkit-calendar-picker-indicator:hover {
+  opacity: 1;
+}
+
+/* Kill any inner spin / clear widgets Chrome tries to add */
+.date-input::-webkit-inner-spin-button,
+.date-input::-webkit-clear-button {
+  -webkit-appearance: none;
+  appearance: none;
+  display: none;
+}
+
+/* Force the editable text area to fill the height (vertical centering) */
+.date-input::-webkit-datetime-edit {
+  display: flex;
+  align-items: center;
+  padding: 0;
+  line-height: 40px;
+}
+
+/* Firefox — same height, no native picker issues */
+.date-input::-moz-focus-inner {
+  border: 0;
+  padding: 0;
+}
+
+/* Mobile: stack the two inputs vertically with a small gap */
+@media (max-width: 639px) {
+  .date-input + span + .date-input {
+    margin-top: 8px;
+  }
+}

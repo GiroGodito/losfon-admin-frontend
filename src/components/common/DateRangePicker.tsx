@@ -56,53 +56,27 @@ export const DateRangePicker: React.FC<DateRangePickerProps> = ({
   onDateToChange,
   className = '',
 }) => {
-  // Shared classes — forces identical height in Chrome & Safari and prevents overlap
-  const dateInputClasses = [
-    'w-full',
-    'h-10',                  // fixed height in both browsers
-    'px-3',
-    'bg-gray-800/50',
-    'border',
-    'border-gray-700',
-    'rounded-lg',
-    'text-white',
-    'text-sm',
-    'transition-all',
-    'duration-200',
-    'focus:outline-none',
-    'focus:ring-2',
-    'focus:ring-green-500',
-    'focus:border-transparent',
-    'hover:border-gray-500',
-    // Neutralize Chrome's native date-picker button so it can't grow the input
-    '[&::-webkit-calendar-picker-indicator]:opacity-70',
-    '[&::-webkit-calendar-picker-indicator]:cursor-pointer',
-    '[&::-webkit-calendar-picker-indicator]:m-0',
-    '[&::-webkit-calendar-picker-indicator]:p-0',
-    '[&::-webkit-datetime-edit]:leading-10',
-    '[&::-webkit-inner-spin-button]:appearance-none',
-    '[&::-webkit-clear-button]:hidden',
-  ].join(' ');
+  // Inline styles are intentional — Tailwind's arbitrary variants for
+  // ::-webkit-* pseudo-elements are not always compiled by @tailwindcss/postcss v4.
+  // Inline style + a plain CSS class guarantees it works in every browser.
+  const inputClass = 'date-input';
 
   return (
-    <div className={`flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3 ${className}`}>
-      {/* From */}
+    <div className={`flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3 w-full ${className}`}>
       <input
         type="date"
         value={dateFrom || ''}
         onChange={(e) => onDateFromChange(e.target.value)}
-        className={dateInputClasses}
+        className={inputClass}
+        aria-label="Date from"
       />
-
-      {/* "to" separator — hidden on mobile so it doesn't look weird stacked */}
       <span className="text-gray-500 flex-shrink-0 hidden sm:inline">to</span>
-
-      {/* To */}
       <input
         type="date"
         value={dateTo || ''}
         onChange={(e) => onDateToChange(e.target.value)}
-        className={dateInputClasses}
+        className={inputClass}
+        aria-label="Date to"
       />
     </div>
   );
