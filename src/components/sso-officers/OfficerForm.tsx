@@ -109,7 +109,7 @@
 
 
 // src/components/sso-officers/OfficerForm.tsx
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { Button } from '../common/Button';
 import { Input } from '../common/Input';
 import type { SSOfficer } from '../../types/sso-officer.types';
@@ -132,10 +132,6 @@ const isValidPhone = (value: string): boolean => {
   const cleaned = value.replace(/[\s\-()]/g, '');
   if (!cleaned) return false;
 
-  // Accepts:
-  //   +639171234567   → international
-  //   09171234567     → PH mobile (11 digits starting with 09)
-  //   9171234567      → bare 10-digit PH mobile
   return (
     /^\+\d{7,15}$/.test(cleaned) ||   // international format
     /^09\d{9}$/.test(cleaned) ||      // PH mobile (0917…)
@@ -164,6 +160,7 @@ export const OfficerForm: React.FC<OfficerFormProps> = ({
     }
   }, [initialData]);
 
+  // ✅ Single source of truth for validation
   const validate = (values: {
     firstName: string;
     lastName: string;
@@ -186,12 +183,21 @@ export const OfficerForm: React.FC<OfficerFormProps> = ({
     if (!values.contactInformation.trim()) {
       next.contactInformation = 'Contact number is required';
     } else if (!isValidPhone(values.contactInformation)) {
-      // ✅ PHONE-ONLY message
       next.contactInformation = 'Enter a valid phone number (e.g. 09171234567)';
     }
 
     return next;
   };
+
+  // ✅ Compute validity on every render (memoized)
+  const isFormValid = useMemo(() => {
+    const validationErrors = validate({
+      firstName,
+      lastName,
+      contactInformation: contactInfo,
+    });
+    return Object.keys(validationErrors).length === 0;
+  }, [firstName, lastName, contactInfo]);
 
   const runValidation = (nextValues?: {
     firstName?: string;
@@ -214,6 +220,7 @@ export const OfficerForm: React.FC<OfficerFormProps> = ({
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
+    // Mark all fields touched so errors show if somehow invalid
     setTouched({ firstName: true, lastName: true, contactInformation: true });
 
     const validationErrors = validate({
@@ -223,6 +230,7 @@ export const OfficerForm: React.FC<OfficerFormProps> = ({
     });
     setErrors(validationErrors);
 
+    // Safety net — button should already be disabled, but just in case
     if (Object.keys(validationErrors).length > 0) {
       return;
     }
@@ -292,15 +300,15 @@ export const OfficerForm: React.FC<OfficerFormProps> = ({
         </div>
       </div>
 
-      {/* Contact Number — PHONE ONLY now */}
+      {/* Contact Number */}
       <div>
         <label className="block text-sm font-medium text-gray-300 mb-1.5">
           Contact Number <span className="text-red-400">*</span>
         </label>
         <Input
-          type="tel"                              // ✅ tel input on mobile
-          inputMode="tel"                         // ✅ numeric keyboard hint
-          placeholder="e.g. 09171234567"          // ✅ phone-only placeholder
+          type="tel"
+          inputMode="tel"
+          placeholder="e.g. 09171234567"
           value={contactInfo}
           onChange={(e) => {
             setContactInfo(e.target.value);
@@ -318,12 +326,13 @@ export const OfficerForm: React.FC<OfficerFormProps> = ({
       </div>
 
       <div className="flex gap-3">
+        {/* ✅ Button is disabled until the form is fully valid */}
         <Button
           type="submit"
           variant="glass-green"
           isLoading={isLoading || isSubmitting}
+          disabled={!isFormValid || isSubmitting}
           className="flex-1"
-          disabled={false}
         >
           {initialData ? 'Update Officer' : 'Add Officer'}
         </Button>
