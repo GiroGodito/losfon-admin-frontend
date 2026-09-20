@@ -142,7 +142,7 @@ export const DashboardLayout: React.FC = () => {
     };
   }, [sidebarOpen]);
 
-  const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
+  const toggleSidebar = () => setSidebarOpen((prev) => !prev);
   const closeSidebar = () => setSidebarOpen(false);
 
   const handleLogout = async () => {
@@ -151,26 +151,26 @@ export const DashboardLayout: React.FC = () => {
   };
 
   return (
-    // ✅ FIX 1: h-screen (not min-h-screen) — locks total page height to viewport
+    // ✅ h-screen + overflow-hidden: page never scrolls as a whole;
+    //    only <main> scrolls. Keeps sidebar sticky.
     <div className="h-screen flex flex-col bg-gradient-to-br from-gray-900 via-gray-800 to-black overflow-hidden">
-      {/* Header stays at the top and never scrolls */}
       <Header onMenuToggle={toggleSidebar} />
 
-      {/* ✅ FIX 2: flex-1 + min-h-0 — this row fills the remaining height and
-          lets its children handle their own scrolling */}
+      {/* min-h-0 is required so flex children can actually scroll */}
       <div className="flex flex-1 min-h-0 overflow-hidden">
-        {/* Mobile overlay */}
+        {/* Mobile overlay: z-30 so it sits BELOW the sidebar (z-50) */}
         {sidebarOpen && (
           <div
-            className="fixed inset-0 z-40 bg-black/60 backdrop-blur-sm md:hidden animate-fade-in"
+            className="fixed inset-0 z-30 bg-black/60 backdrop-blur-sm md:hidden"
             onClick={closeSidebar}
+            aria-hidden="true"
           />
         )}
 
-        {/* ✅ FIX 3: Sidebar is sticky, fixed height, only its nav scrolls */}
+        {/* Sidebar */}
         <aside
           className={`
-            fixed md:sticky top-0 z-40 h-screen md:h-full w-72
+            fixed md:sticky top-0 z-50 h-screen md:h-full w-72
             bg-gray-900/95 backdrop-blur-sm border-r border-gray-800
             transition-transform duration-300 ease-in-out
             ${sidebarOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}
@@ -185,14 +185,17 @@ export const DashboardLayout: React.FC = () => {
             <XMarkIcon className="w-6 h-6" />
           </button>
 
-          {/* ✅ FIX 4: ONLY this nav section scrolls, so if the nav list is
-              long you can scroll it with the sidebar's own scrollbar.
-              The user footer below stays pinned. */}
-          <div className="flex-1 min-h-0 overflow-y-auto pt-4 px-3 pb-3">
+          {/*
+            ✅ KEY FIX: pt-20 on mobile pushes the nav content below the
+            64px sticky header so "Dashboard" isn't hidden behind it.
+            On desktop (md:pt-4), the sidebar is already below the header
+            thanks to the flex layout, so no extra padding is needed.
+          */}
+          <div className="flex-1 min-h-0 overflow-y-auto pt-20 md:pt-4 px-3 pb-3">
             <Navigation onItemClick={closeSidebar} />
           </div>
 
-          {/* User info / logout footer stays pinned at the bottom of the sidebar */}
+          {/* User footer pinned at bottom of sidebar (doesn't scroll) */}
           <div className="p-4 border-t border-gray-800 flex-shrink-0">
             <div className="flex items-center gap-3 text-sm">
               <div className="w-10 h-10 bg-gradient-to-br from-green-500/20 to-blue-500/20 rounded-full flex items-center justify-center border border-green-500/30 flex-shrink-0">
@@ -219,13 +222,12 @@ export const DashboardLayout: React.FC = () => {
           </div>
         </aside>
 
-        {/* ✅ FIX 5: Main content is the ONLY scrolling area */}
+        {/* Main content — the ONLY scrolling area */}
         <main className="flex-1 min-h-0 overflow-y-auto p-4 md:p-6">
           <Outlet />
         </main>
       </div>
 
-      {/* Footer stays at the bottom and never scrolls */}
       <Footer />
     </div>
   );
