@@ -27,7 +27,8 @@ export const DashboardPage = () => {
   const { items: foundItems, pagination: foundPagination } = useFoundItems({ page: 1, pageSize: 1 });
   const { items: claimedItems, pagination: claimedPagination } = useClaimedItems({ page: 1, pageSize: 1 });
   const { items: coldCaseItems, pagination: coldPagination } = useColdCaseItems({ page: 1, pageSize: 1 });
-  const { items: donatedItems, pagination: donatedPagination } = useDonatedItems({ page: 1, pageSize: 1 });
+  //const { items: donatedItems, pagination: donatedPagination } = useDonatedItems({ page: 1, pageSize: 1 });
+  const { groups: donatedGroups, pagination: donatedPagination } = useDonatedItems({ page: 1, pageSize: 1000 });
   const { items: disposalItems, pagination: disposalPagination } = useDisposalItems({ page: 1, pageSize: 1 });
 
   useEffect(() => {
@@ -39,7 +40,8 @@ export const DashboardPage = () => {
   const foundCount = foundPagination?.totalCount || foundItems.length || 0;
   const claimedCount = claimedPagination?.totalCount || claimedItems.length || 0;
   const coldCaseCount = coldPagination?.totalCount || coldCaseItems.length || 0;
-  const donatedCount = donatedPagination?.totalCount || donatedItems.length || 0;
+  //const donatedCount = donatedPagination?.totalCount || donatedItems.length || 0;
+  const donatedCount = donatedGroups.reduce((sum, group) => sum + (group.itemCount || 0), 0);
   const disposalCount = disposalPagination?.totalCount || disposalItems.length || 0;
 
   // All stats - 6 items now

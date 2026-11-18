@@ -784,142 +784,6 @@ export const donatedItemsApi = {
 };
 </file>
 
-<file path="src/api/found-items.ts">
-// src/api/found-items.ts
-import { api } from './client';
-
-export interface FoundItem {
-  id: number;
-  itemDescription: string;
-  dateFound: string;
-  foundBy: string | null;
-  turnInBy: string;
-  isClaimed: boolean;
-  isExpired: boolean;
-  dateTransferred: string | null;
-  isSeen: boolean;
-  filePath: string | null;
-  createdAt: string;
-  updatedAt: string;
-  isDonated: boolean;
-  donatedAt: string | null;
-  sourceLostItemId?: number | null;
-}
-
-export interface CreateFoundItemRequest {
-  itemDescription: string;
-  foundBy?: string;
-  turnInBy: string;
-  filePath?: string | null;
-}
-
-export interface UpdateFoundItemRequest {
-  id: number;
-  itemDescription: string;
-  foundBy?: string;
-  turnInBy: string;
-  filePath?: string | null;
-}
-
-export interface MarkAsClaimedRequest {
-  claimedBy: string;
-  releasedBy: string;
-  claimedContactInformation: string;
-  userId?: number | null;  // ✅ FIXED - Added userId
-}
-
-export interface FoundItemsQueryParams {
-  page?: number;
-  pageSize?: number;
-  dateFrom?: string;
-  dateTo?: string;
-  searchTerm?: string;
-  sortBy?: string;
-  sortDirection?: 'ASC' | 'DESC';
-}
-
-export interface PaginatedResponse<T> {
-  items: T[];
-  totalCount: number;
-  page: number;
-  pageSize: number;
-  totalPages: number;
-  hasPreviousPage: boolean;
-  hasNextPage: boolean;
-  dateFrom?: string | null;
-  dateTo?: string | null;
-  searchTerm?: string | null;
-  sortBy?: string;
-  sortDirection?: string;
-}
-
-const formatDateParam = (date: string, isEndOfDay: boolean = false): string => {
-  if (!date) return '';
-  if (isEndOfDay) {
-    return `${date}T23:59:59`;
-  }
-  return `${date}T00:00:00`;
-};
-
-export const foundItemsApi = {
-  getActive: (params: FoundItemsQueryParams = {}): Promise<PaginatedResponse<FoundItem>> => {
-    const queryParams = new URLSearchParams();
-    if (params.page) queryParams.append('page', String(params.page));
-    if (params.pageSize) queryParams.append('pageSize', String(params.pageSize));
-    if (params.dateFrom) {
-      queryParams.append('dateFrom', formatDateParam(params.dateFrom, false));
-    }
-    if (params.dateTo) {
-      queryParams.append('dateTo', formatDateParam(params.dateTo, true));
-    }
-    if (params.searchTerm) queryParams.append('searchTerm', params.searchTerm);
-    if (params.sortBy) queryParams.append('sortBy', params.sortBy);
-    if (params.sortDirection) queryParams.append('sortDirection', params.sortDirection);
-    return api.get<PaginatedResponse<FoundItem>>(`/FoundItems?${queryParams.toString()}`);
-  },
-
-  getAll: (params: FoundItemsQueryParams = {}): Promise<PaginatedResponse<FoundItem>> => {
-    const queryParams = new URLSearchParams();
-    if (params.page) queryParams.append('page', String(params.page));
-    if (params.pageSize) queryParams.append('pageSize', String(params.pageSize));
-    if (params.dateFrom) {
-      queryParams.append('dateFrom', formatDateParam(params.dateFrom, false));
-    }
-    if (params.dateTo) {
-      queryParams.append('dateTo', formatDateParam(params.dateTo, true));
-    }
-    if (params.searchTerm) queryParams.append('searchTerm', params.searchTerm);
-    if (params.sortBy) queryParams.append('sortBy', params.sortBy);
-    if (params.sortDirection) queryParams.append('sortDirection', params.sortDirection);
-    return api.get<PaginatedResponse<FoundItem>>(`/FoundItems/all?${queryParams.toString()}`);
-  },
-
-  getById: (id: number): Promise<FoundItem> =>
-    api.get<FoundItem>(`/FoundItems/${id}`),
-
-  getUnseenCount: (): Promise<{ count: number }> =>
-    api.get<{ count: number }>('/FoundItems/unseen-count'),
-
-  create: (data: CreateFoundItemRequest): Promise<{ id: number }> =>
-    api.post<{ id: number }>('/FoundItems', data),
-
-  update: (data: UpdateFoundItemRequest): Promise<void> =>
-    api.put<void>(`/FoundItems/${data.id}`, data),
-
-  delete: (id: number): Promise<void> =>
-    api.delete<void>(`/FoundItems/${id}`),
-
-  markAsSeen: (id: number): Promise<void> =>
-    api.post<void>(`/FoundItems/${id}/mark-seen`),
-
-  markAsClaimed: (id: number, data: MarkAsClaimedRequest): Promise<{ success: boolean; message: string }> =>
-    api.post<{ success: boolean; message: string }>(`/FoundItems/${id}/mark-claimed`, data),
-
-  undoMarkAsClaimed: (id: number): Promise<{ success: boolean; message: string }> =>
-    api.post<{ success: boolean; message: string }>(`/FoundItems/${id}/undo-mark-claimed`),
-};
-</file>
-
 <file path="src/api/notifications.ts">
 // src/api/notifications.ts
 import { api } from './client';
@@ -8468,6 +8332,302 @@ export default defineConfig({
 })
 </file>
 
+<file path="src/api/found-items.ts">
+// // src/api/found-items.ts
+// import { api } from './client';
+
+// export interface FoundItem {
+//   id: number;
+//   itemDescription: string;
+//   dateFound: string;
+//   foundBy: string | null;
+//   turnInBy: string;
+//   isClaimed: boolean;
+//   isExpired: boolean;
+//   dateTransferred: string | null;
+//   isSeen: boolean;
+//   filePath: string | null;
+//   createdAt: string;
+//   updatedAt: string;
+//   isDonated: boolean;
+//   donatedAt: string | null;
+//   sourceLostItemId?: number | null;
+// }
+
+// export interface CreateFoundItemRequest {
+//   itemDescription: string;
+//   foundBy?: string;
+//   turnInBy: string;
+//   filePath?: string | null;
+// }
+
+// export interface UpdateFoundItemRequest {
+//   id: number;
+//   itemDescription: string;
+//   foundBy?: string;
+//   turnInBy: string;
+//   filePath?: string | null;
+// }
+
+// export interface MarkAsClaimedRequest {
+//   claimedBy: string;
+//   releasedBy: string;
+//   claimedContactInformation: string;
+//   userId?: number | null;  // ✅ FIXED - Added userId
+// }
+
+// export interface FoundItemsQueryParams {
+//   page?: number;
+//   pageSize?: number;
+//   dateFrom?: string;
+//   dateTo?: string;
+//   searchTerm?: string;
+//   sortBy?: string;
+//   sortDirection?: 'ASC' | 'DESC';
+// }
+
+// export interface PaginatedResponse<T> {
+//   items: T[];
+//   totalCount: number;
+//   page: number;
+//   pageSize: number;
+//   totalPages: number;
+//   hasPreviousPage: boolean;
+//   hasNextPage: boolean;
+//   dateFrom?: string | null;
+//   dateTo?: string | null;
+//   searchTerm?: string | null;
+//   sortBy?: string;
+//   sortDirection?: string;
+// }
+
+// const formatDateParam = (date: string, isEndOfDay: boolean = false): string => {
+//   if (!date) return '';
+//   if (isEndOfDay) {
+//     return `${date}T23:59:59`;
+//   }
+//   return `${date}T00:00:00`;
+// };
+
+// export const foundItemsApi = {
+//   getActive: (params: FoundItemsQueryParams = {}): Promise<PaginatedResponse<FoundItem>> => {
+//     const queryParams = new URLSearchParams();
+//     if (params.page) queryParams.append('page', String(params.page));
+//     if (params.pageSize) queryParams.append('pageSize', String(params.pageSize));
+//     if (params.dateFrom) {
+//       queryParams.append('dateFrom', formatDateParam(params.dateFrom, false));
+//     }
+//     if (params.dateTo) {
+//       queryParams.append('dateTo', formatDateParam(params.dateTo, true));
+//     }
+//     if (params.searchTerm) queryParams.append('searchTerm', params.searchTerm);
+//     if (params.sortBy) queryParams.append('sortBy', params.sortBy);
+//     if (params.sortDirection) queryParams.append('sortDirection', params.sortDirection);
+//     return api.get<PaginatedResponse<FoundItem>>(`/FoundItems?${queryParams.toString()}`);
+//   },
+
+//   getAll: (params: FoundItemsQueryParams = {}): Promise<PaginatedResponse<FoundItem>> => {
+//     const queryParams = new URLSearchParams();
+//     if (params.page) queryParams.append('page', String(params.page));
+//     if (params.pageSize) queryParams.append('pageSize', String(params.pageSize));
+//     if (params.dateFrom) {
+//       queryParams.append('dateFrom', formatDateParam(params.dateFrom, false));
+//     }
+//     if (params.dateTo) {
+//       queryParams.append('dateTo', formatDateParam(params.dateTo, true));
+//     }
+//     if (params.searchTerm) queryParams.append('searchTerm', params.searchTerm);
+//     if (params.sortBy) queryParams.append('sortBy', params.sortBy);
+//     if (params.sortDirection) queryParams.append('sortDirection', params.sortDirection);
+//     return api.get<PaginatedResponse<FoundItem>>(`/FoundItems/all?${queryParams.toString()}`);
+//   },
+
+//   getById: (id: number): Promise<FoundItem> =>
+//     api.get<FoundItem>(`/FoundItems/${id}`),
+
+//   getUnseenCount: (): Promise<{ count: number }> =>
+//     api.get<{ count: number }>('/FoundItems/unseen-count'),
+
+//   create: (data: CreateFoundItemRequest): Promise<{ id: number }> =>
+//     api.post<{ id: number }>('/FoundItems', data),
+
+//   update: (data: UpdateFoundItemRequest): Promise<void> =>
+//     api.put<void>(`/FoundItems/${data.id}`, data),
+
+//   delete: (id: number): Promise<void> =>
+//     api.delete<void>(`/FoundItems/${id}`),
+
+//   markAsSeen: (id: number): Promise<void> =>
+//     api.post<void>(`/FoundItems/${id}/mark-seen`),
+
+//   markAsClaimed: (id: number, data: MarkAsClaimedRequest): Promise<{ success: boolean; message: string }> =>
+//     api.post<{ success: boolean; message: string }>(`/FoundItems/${id}/mark-claimed`, data),
+
+//   undoMarkAsClaimed: (id: number): Promise<{ success: boolean; message: string }> =>
+//     api.post<{ success: boolean; message: string }>(`/FoundItems/${id}/undo-mark-claimed`),
+// };
+
+// src/api/found-items.ts
+import { api } from './client';
+
+export interface FoundItem {
+  id: number;
+  itemDescription: string;
+  dateFound: string;
+  foundBy: string | null;
+  turnInBy: string;
+  isClaimed: boolean;
+  isExpired: boolean;
+  dateTransferred: string | null;
+  isSeen: boolean;
+  filePath: string | null;
+  createdAt: string;
+  updatedAt: string;
+  isDonated: boolean;
+  donatedAt: string | null;
+  sourceLostItemId?: number | null;
+}
+
+export interface CreateFoundItemRequest {
+  itemDescription: string;
+  foundBy?: string;
+  turnInBy: string;
+  filePath?: string | null;
+}
+
+export interface UpdateFoundItemRequest {
+  id: number;
+  itemDescription: string;
+  foundBy?: string;
+  turnInBy: string;
+  filePath?: string | null;
+}
+
+export interface MarkAsClaimedRequest {
+  claimedBy: string;
+  releasedBy: string;
+  claimedContactInformation: string;
+  userId?: number | null;
+}
+
+export interface FoundItemsQueryParams {
+  page?: number;
+  pageSize?: number;
+  dateFrom?: string;
+  dateTo?: string;
+  searchTerm?: string;
+  sortBy?: string;
+  sortDirection?: 'ASC' | 'DESC';
+}
+
+export interface PaginatedResponse<T> {
+  items: T[];
+  totalCount: number;
+  page: number;
+  pageSize: number;
+  totalPages: number;
+  hasPreviousPage: boolean;
+  hasNextPage: boolean;
+  dateFrom?: string | null;
+  dateTo?: string | null;
+  searchTerm?: string | null;
+  sortBy?: string;
+  sortDirection?: string;
+}
+
+/**
+ * Convert a bare date (YYYY-MM-DD) into a full ISO string.
+ *
+ * For the END of a range we send the NEXT day at 00:00:00.
+ * The backend compares with strict '<' on dateTo, so sending
+ * "next day 00:00:00" makes the entire selected end day inclusive.
+ *
+ * Example:
+ *   dateTo = "2026-09-10"
+ *   → sends "2026-09-11T00:00:00"
+ *   → includes ALL of 2026-09-10 ✓
+ */
+const formatDateParam = (date: string, isEndOfDay: boolean = false): string => {
+  if (!date) return '';
+
+  if (isEndOfDay) {
+    // Parse YYYY-MM-DD and add one day
+    const [y, m, d] = date.split('-').map(Number);
+    const next = new Date(y, m - 1, d + 1);
+    const yyyy = next.getFullYear();
+    const mm = String(next.getMonth() + 1).padStart(2, '0');
+    const dd = String(next.getDate()).padStart(2, '0');
+    return `${yyyy}-${mm}-${dd}T00:00:00`;
+  }
+
+  return `${date}T00:00:00`;
+};
+
+export const foundItemsApi = {
+  getActive: (params: FoundItemsQueryParams = {}): Promise<PaginatedResponse<FoundItem>> => {
+    const queryParams = new URLSearchParams();
+    if (params.page) queryParams.append('page', String(params.page));
+    if (params.pageSize) queryParams.append('pageSize', String(params.pageSize));
+
+    // ✅ Inclusive end date (next-day 00:00:00)
+    if (params.dateFrom) {
+      queryParams.append('dateFrom', formatDateParam(params.dateFrom, false));
+    }
+    if (params.dateTo) {
+      queryParams.append('dateTo', formatDateParam(params.dateTo, true));
+    }
+
+    if (params.searchTerm) queryParams.append('searchTerm', params.searchTerm);
+    if (params.sortBy) queryParams.append('sortBy', params.sortBy);
+    if (params.sortDirection) queryParams.append('sortDirection', params.sortDirection);
+    return api.get<PaginatedResponse<FoundItem>>(`/FoundItems?${queryParams.toString()}`);
+  },
+
+  getAll: (params: FoundItemsQueryParams = {}): Promise<PaginatedResponse<FoundItem>> => {
+    const queryParams = new URLSearchParams();
+    if (params.page) queryParams.append('page', String(params.page));
+    if (params.pageSize) queryParams.append('pageSize', String(params.pageSize));
+
+    // ✅ Inclusive end date (next-day 00:00:00)
+    if (params.dateFrom) {
+      queryParams.append('dateFrom', formatDateParam(params.dateFrom, false));
+    }
+    if (params.dateTo) {
+      queryParams.append('dateTo', formatDateParam(params.dateTo, true));
+    }
+
+    if (params.searchTerm) queryParams.append('searchTerm', params.searchTerm);
+    if (params.sortBy) queryParams.append('sortBy', params.sortBy);
+    if (params.sortDirection) queryParams.append('sortDirection', params.sortDirection);
+    return api.get<PaginatedResponse<FoundItem>>(`/FoundItems/all?${queryParams.toString()}`);
+  },
+
+  getById: (id: number): Promise<FoundItem> =>
+    api.get<FoundItem>(`/FoundItems/${id}`),
+
+  getUnseenCount: (): Promise<{ count: number }> =>
+    api.get<{ count: number }>('/FoundItems/unseen-count'),
+
+  create: (data: CreateFoundItemRequest): Promise<{ id: number }> =>
+    api.post<{ id: number }>('/FoundItems', data),
+
+  update: (data: UpdateFoundItemRequest): Promise<void> =>
+    api.put<void>(`/FoundItems/${data.id}`, data),
+
+  delete: (id: number): Promise<void> =>
+    api.delete<void>(`/FoundItems/${id}`),
+
+  markAsSeen: (id: number): Promise<void> =>
+    api.post<void>(`/FoundItems/${id}/mark-seen`),
+
+  markAsClaimed: (id: number, data: MarkAsClaimedRequest): Promise<{ success: boolean; message: string }> =>
+    api.post<{ success: boolean; message: string }>(`/FoundItems/${id}/mark-claimed`, data),
+
+  undoMarkAsClaimed: (id: number): Promise<{ success: boolean; message: string }> =>
+    api.post<{ success: boolean; message: string }>(`/FoundItems/${id}/undo-mark-claimed`),
+};
+</file>
+
 <file path="src/api/print-settings.ts">
 // // src/api/print-settings.ts
 // import { api } from './client';
@@ -14367,205 +14527,6 @@ function App() {
 export default App;
 </file>
 
-<file path="src/index.css">
-@import "tailwindcss";
-
-:root {
-  --text: #6b6375;
-  --text-h: #08060d;
-  --bg: #fff;
-  --border: #e5e4e7;
-  --code-bg: #f4f3ec;
-  --accent: #aa3bff;
-  --accent-bg: rgba(170, 59, 255, 0.1);
-  --accent-border: rgba(170, 59, 255, 0.5);
-  --social-bg: rgba(244, 243, 236, 0.5);
-  --shadow:
-    rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
-
-  --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --mono: ui-monospace, Consolas, monospace;
-
-  font: 18px/145% var(--sans);
-  letter-spacing: 0.18px;
-  color-scheme: light dark;
-  color: var(--text);
-  background: var(--bg);
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-
-  @media (max-width: 1024px) {
-    font-size: 16px;
-  }
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --text: #9ca3af;
-    --text-h: #f3f4f6;
-    --bg: #16171d;
-    --border: #2e303a;
-    --code-bg: #1f2028;
-    --accent: #c084fc;
-    --accent-bg: rgba(192, 132, 252, 0.15);
-    --accent-border: rgba(192, 132, 252, 0.5);
-    --social-bg: rgba(47, 48, 58, 0.5);
-    --shadow:
-      rgba(0, 0, 0, 0.4) 0 10px 15px -3px, rgba(0, 0, 0, 0.25) 0 4px 6px -2px;
-  }
-
-  #social .button-icon {
-    filter: invert(1) brightness(2);
-  }
-}
-
-#root {
-  /* width: 1126px; */
-  max-width: 100%;
-  margin: 0 auto;
-  text-align: center;
-  /* border-inline: 1px solid var(--border); */
-  min-height: 100svh;
-  display: flex;
-  flex-direction: column;
-  box-sizing: border-box;
-}
-
-body {
-  margin: 0;
-}
-
-h1,
-h2 {
-  font-family: var(--heading);
-  font-weight: 500;
-  color: var(--text-h);
-}
-
-h1 {
-  font-size: 56px;
-  letter-spacing: -1.68px;
-  margin: 32px 0;
-  @media (max-width: 1024px) {
-    font-size: 36px;
-    margin: 20px 0;
-  }
-}
-h2 {
-  font-size: 24px;
-  line-height: 118%;
-  letter-spacing: -0.24px;
-  margin: 0 0 8px;
-  @media (max-width: 1024px) {
-    font-size: 20px;
-  }
-}
-p {
-  margin: 0;
-}
-
-code,
-.counter {
-  font-family: var(--mono);
-  display: inline-flex;
-  border-radius: 4px;
-  color: var(--text-h);
-}
-
-code {
-  font-size: 15px;
-  line-height: 135%;
-  padding: 4px 8px;
-  background: var(--code-bg);
-}
-
-
-
-
-
-
-
-/* ============================================================
-   DATE INPUT FIX — prevents Chrome from growing the input and
-   overlapping the row below. Applies to every browser.
-   ============================================================ */
-.date-input {
-  width: 100%;
-  height: 40px;              /* pinned — Chrome cannot grow it */
-  min-height: 40px;
-  max-height: 40px;
-  padding: 0 12px;
-  background-color: rgba(31, 41, 55, 0.5);   /* gray-800/50 */
-  border: 1px solid #374151;                  /* gray-700 */
-  border-radius: 8px;
-  color: #ffffff;
-  font-size: 14px;
-  line-height: 40px;          /* vertical center */
-  box-sizing: border-box;
-  transition: all 0.2s ease;
-  -webkit-appearance: none;
-  appearance: none;
-  outline: none;
-}
-
-.date-input:hover {
-  border-color: #6b7280;      /* gray-500 */
-}
-
-.date-input:focus {
-  border-color: transparent;
-  box-shadow: 0 0 0 2px #22c55e;  /* green-500 ring */
-}
-
-/* Chrome / Edge / Safari — normalize the native picker button so it
-   cannot add extra height or padding to the input. */
-.date-input::-webkit-calendar-picker-indicator {
-  opacity: 0.7;
-  cursor: pointer;
-  margin: 0;
-  padding: 0;
-  width: 16px;
-  height: 16px;
-  filter: invert(0.7);
-}
-
-.date-input::-webkit-calendar-picker-indicator:hover {
-  opacity: 1;
-}
-
-/* Kill any inner spin / clear widgets Chrome tries to add */
-.date-input::-webkit-inner-spin-button,
-.date-input::-webkit-clear-button {
-  -webkit-appearance: none;
-  appearance: none;
-  display: none;
-}
-
-/* Force the editable text area to fill the height (vertical centering) */
-.date-input::-webkit-datetime-edit {
-  display: flex;
-  align-items: center;
-  padding: 0;
-  line-height: 40px;
-}
-
-/* Firefox — same height, no native picker issues */
-.date-input::-moz-focus-inner {
-  border: 0;
-  padding: 0;
-}
-
-/* Mobile: stack the two inputs vertically with a small gap */
-@media (max-width: 639px) {
-  .date-input + span + .date-input {
-    margin-top: 8px;
-  }
-}
-</file>
-
 <file path="tsconfig.json">
 {
   "compilerOptions": {
@@ -16044,7 +16005,8 @@ export const DashboardPage = () => {
   const { items: foundItems, pagination: foundPagination } = useFoundItems({ page: 1, pageSize: 1 });
   const { items: claimedItems, pagination: claimedPagination } = useClaimedItems({ page: 1, pageSize: 1 });
   const { items: coldCaseItems, pagination: coldPagination } = useColdCaseItems({ page: 1, pageSize: 1 });
-  const { items: donatedItems, pagination: donatedPagination } = useDonatedItems({ page: 1, pageSize: 1 });
+  //const { items: donatedItems, pagination: donatedPagination } = useDonatedItems({ page: 1, pageSize: 1 });
+  const { groups: donatedGroups, pagination: donatedPagination } = useDonatedItems({ page: 1, pageSize: 1000 });
   const { items: disposalItems, pagination: disposalPagination } = useDisposalItems({ page: 1, pageSize: 1 });
 
   useEffect(() => {
@@ -16056,7 +16018,8 @@ export const DashboardPage = () => {
   const foundCount = foundPagination?.totalCount || foundItems.length || 0;
   const claimedCount = claimedPagination?.totalCount || claimedItems.length || 0;
   const coldCaseCount = coldPagination?.totalCount || coldCaseItems.length || 0;
-  const donatedCount = donatedPagination?.totalCount || donatedItems.length || 0;
+  //const donatedCount = donatedPagination?.totalCount || donatedItems.length || 0;
+  const donatedCount = donatedGroups.reduce((sum, group) => sum + (group.itemCount || 0), 0);
   const disposalCount = disposalPagination?.totalCount || disposalItems.length || 0;
 
   // All stats - 6 items now
@@ -16623,6 +16586,211 @@ export const LostItemsPage = () => {
 };
 
 export default LostItemsPage;
+</file>
+
+<file path="src/index.css">
+@import "tailwindcss";
+
+:root {
+  --text: #6b6375;
+  --text-h: #08060d;
+  --bg: #fff;
+  --border: #e5e4e7;
+  --code-bg: #f4f3ec;
+  --accent: #aa3bff;
+  --accent-bg: rgba(170, 59, 255, 0.1);
+  --accent-border: rgba(170, 59, 255, 0.5);
+  --social-bg: rgba(244, 243, 236, 0.5);
+  --shadow:
+    rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
+
+  --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
+  --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
+  --mono: ui-monospace, Consolas, monospace;
+
+  font: 18px/145% var(--sans);
+  letter-spacing: 0.18px;
+  color-scheme: light dark;
+  color: var(--text);
+  background: var(--bg);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  @media (max-width: 1024px) {
+    font-size: 16px;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --text: #9ca3af;
+    --text-h: #f3f4f6;
+    --bg: #16171d;
+    --border: #2e303a;
+    --code-bg: #1f2028;
+    --accent: #c084fc;
+    --accent-bg: rgba(192, 132, 252, 0.15);
+    --accent-border: rgba(192, 132, 252, 0.5);
+    --social-bg: rgba(47, 48, 58, 0.5);
+    --shadow:
+      rgba(0, 0, 0, 0.4) 0 10px 15px -3px, rgba(0, 0, 0, 0.25) 0 4px 6px -2px;
+  }
+
+  #social .button-icon {
+    filter: invert(1) brightness(2);
+  }
+}
+
+#root {
+  /* width: 1126px; */
+  max-width: 100%;
+  margin: 0 auto;
+  text-align: center;
+  /* border-inline: 1px solid var(--border); */
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
+h1,
+h2 {
+  font-family: var(--heading);
+  font-weight: 500;
+  color: var(--text-h);
+}
+
+h1 {
+  font-size: 56px;
+  letter-spacing: -1.68px;
+  margin: 32px 0;
+  @media (max-width: 1024px) {
+    font-size: 36px;
+    margin: 20px 0;
+  }
+}
+h2 {
+  font-size: 24px;
+  line-height: 118%;
+  letter-spacing: -0.24px;
+  margin: 0 0 8px;
+  @media (max-width: 1024px) {
+    font-size: 20px;
+  }
+}
+p {
+  margin: 0;
+}
+
+code,
+.counter {
+  font-family: var(--mono);
+  display: inline-flex;
+  border-radius: 4px;
+  color: var(--text-h);
+}
+
+code {
+  font-size: 15px;
+  line-height: 135%;
+  padding: 4px 8px;
+  background: var(--code-bg);
+}
+
+
+
+
+
+
+
+/* ============================================================
+   DATE INPUT FIX — prevents Chrome from growing the input and
+   overlapping the row below. Applies to every browser.
+   ============================================================ */
+.date-input {
+  width: 100%;
+  height: 40px;              /* pinned — Chrome cannot grow it */
+  min-height: 40px;
+  max-height: 40px;
+  padding: 0 12px;
+  background-color: rgba(31, 41, 55, 0.5);   /* gray-800/50 */
+  border: 1px solid #374151;                  /* gray-700 */
+  border-radius: 8px;
+  color: #ffffff;
+  font-size: 14px;
+  line-height: 40px;          /* vertical center */
+  box-sizing: border-box;
+  transition: all 0.2s ease;
+  -webkit-appearance: none;
+  appearance: none;
+  outline: none;
+}
+
+.date-input:hover {
+  border-color: #6b7280;      /* gray-500 */
+}
+
+.date-input:focus {
+  border-color: transparent;
+  box-shadow: 0 0 0 2px #22c55e;  /* green-500 ring */
+}
+
+/* Chrome / Edge / Safari — normalize the native picker button so it
+   cannot add extra height or padding to the input. */
+.date-input::-webkit-calendar-picker-indicator {
+  opacity: 0.7;
+  cursor: pointer;
+  margin: 0;
+  padding: 0;
+  width: 16px;
+  height: 16px;
+  filter: invert(0.7);
+}
+
+.date-input::-webkit-calendar-picker-indicator:hover {
+  opacity: 1;
+}
+
+/* Kill any inner spin / clear widgets Chrome tries to add */
+.date-input::-webkit-inner-spin-button,
+.date-input::-webkit-clear-button {
+  -webkit-appearance: none;
+  appearance: none;
+  display: none;
+}
+
+/* Force the editable text area to fill the height (vertical centering) */
+.date-input::-webkit-datetime-edit {
+  display: flex;
+  align-items: center;
+  padding: 0;
+  line-height: 40px;
+}
+
+/* Firefox — same height, no native picker issues */
+.date-input::-moz-focus-inner {
+  border: 0;
+  padding: 0;
+}
+
+/* Mobile: stack the two inputs vertically with a small gap */
+@media (max-width: 639px) {
+  .date-input + span + .date-input {
+    margin-top: 8px;
+  }
+}
+
+/* Hide Microsoft Edge's native password reveal and clear buttons */
+input[type="password"]::-ms-reveal,
+input[type="password"]::-ms-clear {
+  display: none;
+}
 </file>
 
 <file path="src/api/client.ts">
