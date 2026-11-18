@@ -194,3 +194,9 @@ code {
     margin-top: 8px;
   }
 }
+
+/* Hide Microsoft Edge's native password reveal and clear buttons */
+input[type="password"]::-ms-reveal,
+input[type="password"]::-ms-clear {
+  display: none;
+}
